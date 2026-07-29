@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Master QS Site Measurement System - Structured Edition</title>
+    <title>Legal OS - Lawyer Practice & Case Management System</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -18,13 +18,25 @@
             --success: #10b981;
             --danger: #ef4444;
             --info: #38bdf8;
+            --purple: #8b5cf6;
+        }
+
+        /* Anti-Select Text Protection */
+        body { 
+            background: #0b1120; 
+            color: var(--text-main); 
+            padding: 10px; 
+            min-height: 100vh;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
 
         * { box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; padding: 0; }
-        body { background: #0b1120; color: var(--text-main); padding: 10px; min-height: 100vh; }
         @media(min-width: 768px) { body { padding: 20px; } }
 
-        .container { max-width: 1250px; margin: 0 auto; display: none; width: 100%; }
+        .container { max-width: 1350px; margin: 0 auto; display: none; width: 100%; }
 
         /* AUTHENTICATION LOCK SCREEN */
         #authOverlay {
@@ -42,7 +54,7 @@
             background: var(--card-bg);
             backdrop-filter: blur(20px);
             border: 1px solid var(--card-border);
-            padding: 2rem;
+            padding: 2.5rem 2rem;
             border-radius: 20px;
             width: 100%;
             max-width: 380px;
@@ -50,13 +62,8 @@
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
 
-        .auth-card i.lock-icon {
-            font-size: 2.5rem;
-            color: var(--accent);
-            margin-bottom: 1rem;
-        }
-
-        .auth-card h2 { font-size: 1.2rem; font-weight: 800; margin-bottom: 0.5rem; }
+        .auth-card i.lock-icon { font-size: 2.8rem; color: var(--accent); margin-bottom: 1rem; }
+        .auth-card h2 { font-size: 1.3rem; font-weight: 800; margin-bottom: 0.5rem; }
         .auth-card p { color: var(--text-muted); font-size: 0.8rem; margin-bottom: 1.5rem; }
 
         .pin-input {
@@ -90,7 +97,7 @@
         }
 
         header h1 {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             font-weight: 800;
             color: var(--accent);
             display: flex;
@@ -101,103 +108,112 @@
         .header-btns { display: flex; gap: 8px; flex-wrap: wrap; width: 100%; }
         @media(min-width: 768px) { .header-btns { width: auto; } }
 
-        .card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 14px; margin-bottom: 15px; }
-        .card-title { font-size: 12px; font-weight: 800; color: var(--accent); margin-bottom: 12px; text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 6px; }
+        /* DASHBOARD METRICS */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-bottom: 1.2rem;
+        }
 
-        .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
-        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
+        .metric-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .metric-icon {
+            width: 48px; height: 48px;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.3rem;
+        }
+
+        .metric-info h3 { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; }
+        .metric-info .val { font-size: 1.4rem; font-weight: 800; color: var(--text-main); }
+
+        /* TABS NAVIGATION */
+        .tab-nav {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 1.2rem;
+            background: rgba(15, 23, 42, 0.6);
+            padding: 6px;
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            padding: 10px 16px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .tab-btn.active, .tab-btn:hover {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--accent);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        .card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 16px; margin-bottom: 15px; }
+        .card-title { font-size: 12px; font-weight: 800; color: var(--accent); margin-bottom: 12px; text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 6px; display: flex; justify-content: space-between; align-items: center; }
+
+        .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr; gap: 15px; }
+        @media(min-width: 950px) { .grid-2 { grid-template-columns: 2fr 1fr; } }
 
         .form-group { display: flex; flex-direction: column; gap: 4px; margin-bottom: 8px; }
         .form-group label { font-size: 10px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; }
-        input, select { background: #0f172a; border: 1px solid var(--card-border); border-radius: 6px; padding: 7px 9px; color: #fff; font-size: 11px; outline: none; width: 100%; }
-        input:focus, select:focus { border-color: var(--accent); }
+        input, select, textarea { background: #0f172a; border: 1px solid var(--card-border); border-radius: 6px; padding: 8px 10px; color: #fff; font-size: 11px; outline: none; width: 100%; }
+        input:focus, select:focus, textarea:focus { border-color: var(--accent); }
 
-        /* MULTI-BOX PROJECT DETAILS GRID */
-        .project-boxes-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .info-card-box {
-            background: #0f172a;
-            border: 1px solid var(--card-border);
-            border-left: 3px solid var(--info);
-            border-radius: 8px;
-            padding: 10px 12px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
-            transition: transform 0.2s ease;
-        }
-
-        .info-card-box:hover {
-            transform: translateY(-2px);
-            border-left-color: var(--accent);
-        }
-
-        .info-card-box label {
-            font-size: 9px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            font-weight: 800;
-            display: block;
-            margin-bottom: 3px;
-            letter-spacing: 0.5px;
-        }
-
-        .info-card-box span {
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--text-main);
-            word-break: break-word;
-        }
-
-        /* TABLE MOBILE RESPONSIVE WRAPPER */
+        /* TABLE STYLING */
         .table-wrapper { overflow-x: auto; margin-bottom: 15px; -webkit-overflow-scrolling: touch; }
-        table { width: 100%; border-collapse: collapse; font-size: 11px; white-space: nowrap; min-width: 600px; }
-        th { background: #0f172a; color: var(--accent); padding: 8px; border: 1px solid var(--card-border); text-align: center; font-size: 10px; }
-        td { padding: 5px 8px; border: 1px solid var(--card-border); text-align: center; }
+        table { width: 100%; border-collapse: collapse; font-size: 11px; white-space: nowrap; min-width: 700px; }
+        th { background: #0f172a; color: var(--accent); padding: 9px; border: 1px solid var(--card-border); text-align: center; font-size: 10px; }
+        td { padding: 8px; border: 1px solid var(--card-border); text-align: center; }
 
-        .input-inline { background: #0f172a; border: 1px solid var(--card-border); color: #fff; font-weight: 700; text-align: center; padding: 4px; border-radius: 4px; }
-        
         .btn { background: var(--accent); color: #000; border: none; padding: 8px 14px; border-radius: 6px; font-weight: 800; cursor: pointer; font-size: 11px; transition: all 0.2s; }
-        .btn-sm { padding: 6px 12px; font-size: 0.8rem; }
-        .btn-add-item { background: var(--info); color: #000; }
-        .btn-del { background: rgba(239, 68, 68, 0.2); color: var(--danger); border: 1px solid var(--danger); padding: 2px 6px; border-radius: 4px; cursor: pointer; font-weight: bold; }
-        .btn-print { background: var(--success); color: #fff; }
+        .btn:hover { opacity: 0.9; }
+        .btn-sm { padding: 5px 10px; font-size: 0.75rem; }
+        .btn-del { background: rgba(239, 68, 68, 0.2); color: var(--danger); border: 1px solid var(--danger); padding: 3px 8px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .btn-edit { background: rgba(56, 189, 248, 0.2); color: var(--info); border: 1px solid var(--info); padding: 3px 8px; border-radius: 4px; cursor: pointer; font-weight: bold; }
         .btn-sec { background: rgba(255, 255, 255, 0.08); color: var(--text-main); border: 1px solid var(--card-border); }
         .btn-danger-sec { background: rgba(239, 68, 68, 0.2); color: var(--danger); border: 1px solid var(--danger); }
 
-        .item-summary-row { background: rgba(15, 23, 42, 0.95); font-weight: 800; font-size: 12px; color: var(--accent); }
+        .status-pill { padding: 3px 8px; border-radius: 12px; font-weight: 800; font-size: 9px; display: inline-block; }
+        .status-active { background: rgba(16, 185, 129, 0.2); color: var(--success); }
+        .status-pending { background: rgba(245, 158, 11, 0.2); color: var(--accent); }
+        .status-closed { background: rgba(239, 68, 68, 0.2); color: var(--danger); }
 
-        .signature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 25px; text-align: center; }
-        .sig-box { border-top: 1px dashed var(--text-muted); padding-top: 8px; }
-        .sig-box h4 { font-size: 11px; color: var(--text-main); font-weight: 800; }
-        .sig-box p { font-size: 9px; color: var(--text-muted); margin-top: 2px; }
-
-        /* PRINT / PDF SPECIFIC STYLES */
         @media print {
-            .btn, form, select, .no-print, #authOverlay { display: none !important; }
+            .btn, form, select, .no-print, #authOverlay, .tab-nav { display: none !important; }
             body { background: white !important; color: black !important; padding: 0; }
             .container { display: block !important; }
             .card { border: 1px solid #000 !important; background: white !important; color: black !important; box-shadow: none; padding: 8px; }
             th { background: #f1f5f9 !important; color: black !important; border: 1px solid #000 !important; }
             td { border: 1px solid #000 !important; color: black !important; }
-            input { border: none !important; background: transparent !important; color: black !important; text-align: center; }
-            .input-inline { border: none !important; background: transparent !important; color: black !important; }
-            
-            /* PRINT BOXES FORMAT */
-            .project-boxes-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 8px !important; }
-            .info-card-box { background: #ffffff !important; border: 1px solid #000000 !important; color: #000000 !important; border-left: 4px solid #000000 !important; }
-            .info-card-box label { color: #555555 !important; }
-            .info-card-box span { color: #000000 !important; font-weight: bold !important; }
-
-            /* Total Quantity PDF / Print Visibility Fix */
-            .item-summary-row { background: #f8fafc !important; color: #000000 !important; font-weight: bold !important; }
-            .item-summary-row td { color: #000000 !important; font-weight: 900 !important; border-top: 2px solid #000 !important; }
-            
-            .sig-box { border-top: 1px solid #000 !important; color: black !important; }
-            .sig-box h4 { color: black !important; }
+            input, select { border: none !important; background: transparent !important; color: black !important; }
         }
     </style>
 </head>
@@ -206,318 +222,336 @@
   <!-- AUTHENTICATION LOCK SCREEN -->
   <div id="authOverlay">
     <div class="auth-card">
-      <i class="fa-solid fa-shield-halved lock-icon"></i>
-      <h2>Access Protected</h2>
-      <p>Enter Master PIN to unlock QS System</p>
+      <i class="fa-solid fa-scale-balanced lock-icon"></i>
+      <h2>Legal OS Practice Manager</h2>
+      <p>Enter Master PIN to access Case File System</p>
       <form id="loginForm">
         <div class="form-group">
           <input type="password" id="inputPin" class="pin-input" maxlength="6" placeholder="••••" required autofocus>
         </div>
-        <button type="submit" class="btn" style="width:100%; margin-top:10px;">Unlock System</button>
+        <button type="submit" class="btn" style="width:100%; margin-top:10px;">Unlock Legal OS</button>
       </form>
       <p style="margin-top: 15px; font-size: 0.75rem; color: var(--text-muted);">Default PIN: 1234</p>
     </div>
   </div>
 
-  <!-- MAIN CONTAINER -->
+  <!-- MAIN SYSTEM CONTAINER -->
   <div class="container" id="mainSystem">
     
     <header class="no-print">
-      <h1><i class="fa-solid fa-calculator"></i> MEASUREMENT TAKEOFF SYSTEM</h1>
+      <h1><i class="fa-solid fa-gavel"></i> LEGAL PRACTICE OS PRO</h1>
       <div class="header-btns">
         <button class="btn btn-sec btn-sm" onclick="changePinModal()"><i class="fa-solid fa-key"></i> PIN</button>
-        <button class="btn btn-danger-sec btn-sm" onclick="resetAllData()"><i class="fa-solid fa-trash"></i> Reset Data</button>
+        <button class="btn btn-danger-sec btn-sm" onclick="clearAllData()"><i class="fa-solid fa-trash"></i> Reset Data</button>
         <button class="btn btn-sec btn-sm" onclick="lockSystem()"><i class="fa-solid fa-lock"></i> Lock</button>
       </div>
     </header>
 
-    <!-- 1. PROJECT HEADER DETAILS FORM -->
-    <div class="card no-print">
-        <div class="card-title">Project & Header Information</div>
-        <div class="grid-4">
-            <div class="form-group">
-                <label>Project Name</label>
-                <input type="text" id="pName" value="Proposed Commercial Building Construction" onchange="updateProjectMeta()">
+    <!-- DASHBOARD METRICS -->
+    <div class="metrics-grid no-print">
+        <div class="metric-card">
+            <div class="metric-icon" style="background: rgba(56, 189, 248, 0.15); color: var(--info);"><i class="fa-solid fa-folder-open"></i></div>
+            <div class="metric-info">
+                <h3>Total Active Cases</h3>
+                <div class="val" id="metricActiveCases">0</div>
             </div>
-            <div class="form-group">
-                <label>Client / Employer</label>
-                <input type="text" id="pClient" value="ASE Design & Development Ltd" onchange="updateProjectMeta()">
+        </div>
+        <div class="metric-card">
+            <div class="metric-icon" style="background: rgba(245, 158, 11, 0.15); color: var(--accent);"><i class="fa-solid fa-calendar-day"></i></div>
+            <div class="metric-info">
+                <h3>Today's Hearings</h3>
+                <div class="val" id="metricTodayCases">0</div>
             </div>
-            <div class="form-group">
-                <label>Main Contractor</label>
-                <input type="text" id="pContractor" value="Prime Builders Sri Lanka" onchange="updateProjectMeta()">
+        </div>
+        <div class="metric-card">
+            <div class="metric-icon" style="background: rgba(139, 92, 246, 0.15); color: var(--purple);"><i class="fa-solid fa-users"></i></div>
+            <div class="metric-info">
+                <h3>Total Clients</h3>
+                <div class="val" id="metricTotalClients">0</div>
             </div>
-            <div class="form-group">
-                <label>Sub-Contractor / Trade</label>
-                <input type="text" id="pSubContractor" value="Masonry & Concrete Works Team A" onchange="updateProjectMeta()">
-            </div>
-            <div class="form-group">
-                <label>Location / Block / Floor</label>
-                <input type="text" id="pLoc" value="Ground Floor & Foundation" onchange="updateProjectMeta()">
-            </div>
-            <div class="form-group">
-                <label>Measurement Date</label>
-                <input type="date" id="pDate" onchange="updateProjectMeta()">
-            </div>
-            <div class="form-group">
-                <label>Valuation / Sheet Ref No</label>
-                <input type="text" id="pRef" value="VAL-2026-001 / Sheet 01" onchange="updateProjectMeta()">
-            </div>
-            <div class="form-group">
-                <label>Measured By (Name/Title)</label>
-                <input type="text" id="pMeasBy" value="Sunimal Perera (Site QS)" onchange="updateProjectMeta()">
+        </div>
+        <div class="metric-card">
+            <div class="metric-icon" style="background: rgba(239, 68, 68, 0.15); color: var(--danger);"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+            <div class="metric-info">
+                <h3>Total Pending Fees</h3>
+                <div class="val" id="metricPendingFees">LKR 0.00</div>
             </div>
         </div>
     </div>
 
-    <!-- 2. CREATE NEW BOQ ITEM -->
-    <div class="card no-print">
-        <div class="card-title">Add New B.O.Q Item</div>
-        <form id="newBoqForm">
-            <div class="grid-4">
-                <div class="form-group">
-                    <label>B.O.Q No.</label>
-                    <input type="text" id="newBoqNo" placeholder="e.g. B.1" required>
-                </div>
-                <div class="form-group" style="grid-column: span 2;">
-                    <label>Description</label>
-                    <input type="text" id="newBoqDesc" placeholder="e.g. Excavation for column foundation" required>
-                </div>
-                <div class="form-group">
-                    <label>Unit</label>
-                    <select id="newBoqUnit">
-                        <option value="m3">m3 (Cubicity)</option>
-                        <option value="m2">m2 (Square Area)</option>
-                        <option value="m">m (Linear)</option>
-                        <option value="Nos">Nos (Count)</option>
-                        <option value="ft3">ft3</option>
-                        <option value="ft2">ft2</option>
-                        <option value="ft">ft</option>
-                    </select>
-                </div>
-            </div>
-            <div style="text-align: right; margin-top: 5px;">
-                <button type="submit" class="btn btn-add-item">+ Create BOQ Section</button>
-            </div>
-        </form>
+    <!-- TABS NAVIGATION -->
+    <div class="tab-nav no-print">
+      <button class="tab-btn active" onclick="switchTab('cases', event)"><i class="fa-solid fa-briefcase"></i> Case Files</button>
+      <button class="tab-btn" onclick="switchTab('diary', event)"><i class="fa-solid fa-calendar-days"></i> Legal Diary & Hearings</button>
+      <button class="tab-btn" onclick="switchTab('clients', event)"><i class="fa-solid fa-users"></i> Client & Payments</button>
     </div>
 
-    <!-- 3. ADD MEASUREMENT ROW -->
-    <div class="card no-print">
-        <div class="card-title">Add Measurement Row</div>
-        <form id="rowForm">
-            <div class="grid-3" style="margin-bottom: 10px;">
-                <div class="form-group">
-                    <label>Select Target BOQ Item</label>
-                    <select id="targetBoqSelect"></select>
-                </div>
-                <div class="form-group" style="grid-column: span 2;">
-                    <label>Row Sub-Description / Location (Optional)</label>
-                    <input type="text" id="rSubDesc" placeholder="e.g. Footing F1 / Grid Line A-B">
-                </div>
-            </div>
+    <!-- TAB 1: CASE MANAGEMENT -->
+    <div id="tab-cases" class="tab-content active">
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">
+            <span>Case Directory / Master Register</span>
+            <button class="btn btn-sm btn-print no-print" onclick="window.print()"><i class="fa-solid fa-print"></i> Print Register</button>
+          </div>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Case No</th>
+                  <th>Court</th>
+                  <th>Type</th>
+                  <th>Client / Parties</th>
+                  <th>Next Date</th>
+                  <th>Next Action / Step</th>
+                  <th>Status</th>
+                  <th class="no-print">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="caseTableBody"></tbody>
+            </table>
+          </div>
+        </div>
 
-            <div class="grid-4">
-                <div class="form-group">
-                    <label>Times / No (Deduction නම් -1 යොදන්න)</label>
-                    <input type="number" id="rTimes" value="1" step="any" required>
-                </div>
-                <div class="form-group">
-                    <label>Length</label>
-                    <input type="number" id="rL" value="0" step="any" placeholder="0.00">
-                </div>
-                <div class="form-group">
-                    <label>Width</label>
-                    <input type="number" id="rW" value="0" step="any" placeholder="0.00">
-                </div>
-                <div class="form-group">
-                    <label>Depth / Height</label>
-                    <input type="number" id="rD" value="0" step="any" placeholder="0.00">
-                </div>
+        <div class="card no-print">
+          <div class="card-title" id="caseFormTitle">+ Add New Case File</div>
+          <form id="caseForm">
+            <input type="hidden" id="cEditId">
+            <div class="form-group">
+              <label>Case Number / Reference</label>
+              <input type="text" id="cNo" placeholder="e.g. D/123/2026" required>
             </div>
-            <div style="text-align: right; margin-top: 8px;">
-                <button type="submit" class="btn">+ Add Measurement Row</button>
+            <div class="form-group">
+              <label>Court Name</label>
+              <input type="text" id="cCourt" placeholder="e.g. Kegalle District Court / Magistrate Court" required>
             </div>
-        </form>
+            <div class="form-group">
+              <label>Case Type</label>
+              <select id="cType">
+                <option value="Land / Partition">Land / Partition Matter</option>
+                <option value="Divorce / Family">Divorce / Family Matter</option>
+                <option value="Money Recovery">Money Recovery (DMR)</option>
+                <option value="Testamentary">Testamentary / Probate</option>
+                <option value="Criminal / Magistrate">Criminal / Magistrate Court</option>
+                <option value="High Court / Appeal">High Court / Appeal</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Plaintiff / Applicant Name</label>
+              <input type="text" id="cPlaintiff" placeholder="e.g. A.B. Perera" required>
+            </div>
+            <div class="form-group">
+              <label>Defendant / Respondent Name</label>
+              <input type="text" id="cDefendant" placeholder="e.g. K.L. Fernando" required>
+            </div>
+            <div class="form-group">
+              <label>Next Hearing Date</label>
+              <input type="date" id="cNextDate" required>
+            </div>
+            <div class="form-group">
+              <label>Next Step / Action Required</label>
+              <input type="text" id="cNextStep" placeholder="e.g. Filing Answer / Evidence / Cross Exam" required>
+            </div>
+            <div class="form-group">
+              <label>Assigned Counsel / Lawyer</label>
+              <input type="text" id="cLawyer" value="Attorney-at-Law" required>
+            </div>
+            <div class="form-group">
+              <label>Case Status</label>
+              <select id="cStatus">
+                <option value="Active">Active Hearing</option>
+                <option value="Pending Order">Pending Judgment / Order</option>
+                <option value="Closed / Disposed">Closed / Disposed</option>
+              </select>
+            </div>
+            <button type="submit" class="btn" id="cBtnSubmit" style="width: 100%; margin-top: 5px;">Save Case Record</button>
+          </form>
+        </div>
+      </div>
     </div>
 
-    <!-- 4. MASTER REPORT SHEET CONTAINER -->
-    <div class="card">
-        
-        <!-- INDIVIDUAL CARDS / BOXES FOR PROJECT DETAILS -->
-        <div class="card-title">Project Reference Overview</div>
-        <div class="project-boxes-grid">
-            <div class="info-card-box">
-                <label><i class="fa-solid fa-building"></i> Project Name</label>
-                <span id="dispPName">-</span>
-            </div>
-            <div class="info-card-box">
-                <label><i class="fa-solid fa-user-tie"></i> Client / Employer</label>
-                <span id="dispPClient">-</span>
-            </div>
-            <div class="info-card-box">
-                <label><i class="fa-solid fa-helmet-safety"></i> Main Contractor</label>
-                <span id="dispPContractor">-</span>
-            </div>
-            <div class="info-card-box">
-                <label><i class="fa-solid fa-people-group"></i> Sub-Contractor</label>
-                <span id="dispPSubContractor">-</span>
-            </div>
-            <div class="info-card-box">
-                <label><i class="fa-solid fa-location-dot"></i> Site Location</label>
-                <span id="dispPLoc">-</span>
-            </div>
-            <div class="info-card-box">
-                <label><i class="fa-solid fa-calendar-days"></i> Measurement Date</label>
-                <span id="dispPDate">-</span>
-            </div>
-            <div class="info-card-box">
-                <label><i class="fa-solid fa-file-invoice"></i> Valuation Ref No.</label>
-                <span id="dispPRef">-</span>
-            </div>
-            <div class="info-card-box">
-                <label><i class="fa-solid fa-user-check"></i> Measured By</label>
-                <span id="dispPMeasBy">-</span>
-            </div>
+    <!-- TAB 2: LEGAL DIARY & TODAY'S HEARINGS -->
+    <div id="tab-diary" class="tab-content">
+      <div class="card">
+        <div class="card-title">
+          <span>Today's Court Appearances & Hearing Schedule</span>
+          <span id="diaryTodayDate" style="color:var(--info);"></span>
+        </div>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Case No</th>
+                <th>Court</th>
+                <th>Parties</th>
+                <th>Today's Scheduled Step</th>
+                <th>Counsel</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="todayHearingTable"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Upcoming Court Hearing Calendar (Chronological Order)</div>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Hearing Date</th>
+                <th>Case No</th>
+                <th>Court</th>
+                <th>Type</th>
+                <th>Next Step / Action</th>
+              </tr>
+            </thead>
+            <tbody id="upcomingHearingTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: CLIENT & FEE MANAGEMENT -->
+    <div id="tab-clients" class="tab-content">
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">Client Ledger & Fee Payment Status</div>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Client Name</th>
+                  <th>NIC No</th>
+                  <th>Phone</th>
+                  <th>Agreed Fee (රු.)</th>
+                  <th>Paid So Far (රු.)</th>
+                  <th>Balance Due (රු.)</th>
+                  <th class="no-print">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="clientTableBody"></tbody>
+            </table>
+          </div>
         </div>
 
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; margin-top: 15px;">
-            <div class="card-title" style="margin: 0;">DETAILED MEASUREMENT SHEET</div>
-            <div class="no-print">
-                <button class="btn btn-print" onclick="window.print()"><i class="fa-solid fa-print"></i> Print Sheet / Save PDF</button>
+        <div class="card no-print">
+          <div class="card-title">+ Add Client Payment Record</div>
+          <form id="clientForm">
+            <div class="form-group">
+              <label>Client Full Name</label>
+              <input type="text" id="clName" placeholder="e.g. K.A. Sunil Silva" required>
             </div>
+            <div class="form-group">
+              <label>NIC / Passport No</label>
+              <input type="text" id="clNic" placeholder="e.g. 198512345V" required>
+            </div>
+            <div class="form-group">
+              <label>Phone Number</label>
+              <input type="text" id="clPhone" placeholder="e.g. 0771234567" required>
+            </div>
+            <div class="form-group">
+              <label>Agreed Retainer Fee (LKR)</label>
+              <input type="number" id="clAgreed" placeholder="0.00" required>
+            </div>
+            <div class="form-group">
+              <label>Advance / Initial Payment (LKR)</label>
+              <input type="number" id="clPaid" placeholder="0.00" value="0">
+            </div>
+            <button type="submit" class="btn" style="width:100%; margin-top:5px;">Save Client Ledger</button>
+          </form>
         </div>
-
-        <div id="boqItemsContainer"></div>
-
-        <!-- 5. SIGNATURES & APPROVAL SECTION -->
-        <div class="signature-grid">
-            <div class="sig-box">
-                <h4 id="sigMeasuredName">Sunimal Perera</h4>
-                <p>MEASURED BY (SITE QS)</p>
-                <p style="font-size: 8px; color: #94a3b8; margin-top: 15px;">Date: ____ / ____ / ________</p>
-            </div>
-            <div class="sig-box">
-                <h4>______________________</h4>
-                <p>CHECKED BY (SENIOR QS / ENGINEER)</p>
-                <p style="font-size: 8px; color: #94a3b8; margin-top: 15px;">Date: ____ / ____ / ________</p>
-            </div>
-            <div class="sig-box">
-                <h4>______________________</h4>
-                <p>APPROVED BY (PROJECT MANAGER / CONSULTANT)</p>
-                <p style="font-size: 8px; color: #94a3b8; margin-top: 15px;">Date: ____ / ____ / ________</p>
-            </div>
-        </div>
+      </div>
     </div>
 
   </div>
 
-<script>
-// 1. Mouse Right Click කිරීම Block කිරීම
-  document.addEventListener('contextmenu', function(e) {
-      e.preventDefault();
-  });
+  <!-- 1. SECURITY LAYER: ANTI-COPY & ANTI-INSPECT PROTECTION -->
+  <script>
+    // Disable Mouse Right Click
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+    });
 
-  // 2. Keyboard Shortcuts Block කිරීම
-  document.onkeydown = function(e) {
-      // F12 Key එක Block කිරීම (Developer Tools)
-      if (e.keyCode === 123) {
-          e.preventDefault();
-          return false;
-      }
-      
-      // Ctrl + U (View Source Code) Block කිරීම
-      if (e.ctrlKey && e.keyCode === 'U'.charCodeAt(0)) {
-          e.preventDefault();
-          return false;
-      }
+    // Disable Key Shortcuts (Ctrl+U, F12, Inspect, Save)
+    document.onkeydown = function(e) {
+        if (e.keyCode === 123) { e.preventDefault(); return false; } // F12
+        if (e.ctrlKey && e.keyCode === 'U'.charCodeAt(0)) { e.preventDefault(); return false; } // Ctrl+U
+        if (e.ctrlKey && e.shiftKey && e.keyCode === 'I'.charCodeAt(0)) { e.preventDefault(); return false; } // Ctrl+Shift+I
+        if (e.ctrlKey && e.shiftKey && e.keyCode === 'C'.charCodeAt(0)) { e.preventDefault(); return false; } // Ctrl+Shift+C
+        if (e.ctrlKey && e.shiftKey && e.keyCode === 'J'.charCodeAt(0)) { e.preventDefault(); return false; } // Ctrl+Shift+J
+        if (e.ctrlKey && e.keyCode === 'S'.charCodeAt(0)) { e.preventDefault(); return false; } // Ctrl+S
+    };
+  </script>
 
-      // Ctrl + Shift + I (Inspect Element) Block කිරීම
-      if (e.ctrlKey && e.shiftKey && e.keyCode === 'I'.charCodeAt(0)) {
-          e.preventDefault();
-          return false;
-      }
+  <!-- 2. SECURITY LAYER: ADVANCED DEVICE FINGERPRINT & LINK FORWARDING LOCK -->
+  <script>
+    (function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const clientKey = urlParams.get('key');
 
-      // Ctrl + Shift + C (Inspect Element Mode) Block කිරීම
-      if (e.ctrlKey && e.shiftKey && e.keyCode === 'C'.charCodeAt(0)) {
-          e.preventDefault();
-          return false;
-      }
+        // 1. Check if Key exists in URL
+        if (!clientKey) {
+            showBlocked("⛔ Access Denied!", "Valid License Key Required to Open System.");
+            return;
+        }
 
-      // Ctrl + Shift + J (Console Mode) Block කිරීම
-      if (e.ctrlKey && e.shiftKey && e.keyCode === 'J'.charCodeAt(0)) {
-          e.preventDefault();
-          return false;
-      }
+        // Generate Hardware Fingerprint
+        const deviceFP = generateFingerprint();
+        const storageKey = 'device_bind_' + clientKey;
+        const boundDevice = localStorage.getItem(storageKey);
 
-      // Ctrl + S (Page Save As) Block කිරීම
-      if (e.ctrlKey && e.keyCode === 'S'.charCodeAt(0)) {
-          e.preventDefault();
-          return false;
-      }
-  };
-(function() {
-      const urlParams = new URLSearchParams(window.location.search);
-      const clientKey = urlParams.get('key');
+        // 2. Lock to Device on First Access
+        if (!boundDevice) {
+            localStorage.setItem(storageKey, deviceFP);
+            document.cookie = storageKey + "=" + deviceFP + ";expires=Thu, 18 Dec 2036 12:00:00 UTC;path=/";
+        } 
+        else {
+            const cookieVal = getCookie(storageKey);
+            // 3. Block if opened from another device/forwarded link
+            if (boundDevice !== deviceFP && cookieVal !== deviceFP) {
+                showBlocked("⛔ Link Forwarding Blocked!", "මෙම Link එක වෙනත් දුරකථනයකට/Device එකකට Lock කර ඇත. වෙනත් අය අතර Share කළ නොහැක.");
+                return;
+            }
+        }
 
-      // 1. Key එකක් නැත්නම් කෙලින්ම Access Block කරයි
-      if (!clientKey) {
-          showBlocked("⛔ Access Denied!", "Valid Key Required to Open System.");
-          return;
-      }
+        function generateFingerprint() {
+            return btoa(
+                navigator.userAgent + 
+                screen.width + "x" + screen.height + 
+                (navigator.hardwareConcurrency || 1) + 
+                (navigator.language || '')
+            ).substring(0, 32);
+        }
 
-      // Generate a Unique Fingerprint for the Current Device
-      const deviceFP = generateFingerprint();
-      const storageKey = 'device_bind_' + clientKey;
-      const boundDevice = localStorage.getItem(storageKey);
+        function getCookie(cname) {
+            let name = cname + "=";
+            let decodedCookie = decodeURIComponent(document.cookie);
+            let ca = decodedCookie.split(';');
+            for(let i = 0; i < ca.length; i++) {
+                let c = ca[i].trim();
+                if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+            }
+            return "";
+        }
 
-      // 2. ප්‍රථම වතාවට මෙම Key එකෙන් Open කරද්දී Device Fingerprint එක Lock වේ
-      if (!boundDevice) {
-          localStorage.setItem(storageKey, deviceFP);
-          // Set a persistent cookie as backup for WhatsApp In-App Browser
-          document.cookie = storageKey + "=" + deviceFP + ";expires=Thu, 18 Dec 2036 12:00:00 UTC;path=/";
-      } 
-      else {
-          const cookieVal = getCookie(storageKey);
-          // 3. වෙනත් Device එකකින් හෝ Resend කර වෙන කෙනෙක් Open කළහොත් Block වේ
-          if (boundDevice !== deviceFP && cookieVal !== deviceFP) {
-              showBlocked("⛔ Link Forwarding Blocked!", "මෙම Link එක වෙනත් දුරකථනයකට/Device එකකට Lock කර ඇත. වෙනත් අය අතර Share කළ නොහැක.");
-              return;
-          }
-      }
+        function showBlocked(title, msg) {
+            document.body.innerHTML = `
+                <div style="display:flex; justify-content:center; align-items:center; height:100vh; background:#0b1120; color:#ef4444; font-family:sans-serif; text-align:center; padding:20px;">
+                    <div style="background:#1e293b; padding:30px; border-radius:16px; border:1px solid #ef4444; max-width:400px; box-shadow:0 20px 25px -5px rgba(0,0,0,0.5);">
+                        <h1 style="font-size:1.5rem; margin-bottom:12px; color:#ef4444;">${title}</h1>
+                        <p style="color:#94a3b8; font-size:0.9rem; line-height:1.5;">${msg}</p>
+                    </div>
+                </div>`;
+        }
+    })();
+  </script>
 
-      function generateFingerprint() {
-          return btoa(
-              navigator.userAgent + 
-              screen.width + "x" + screen.height + 
-              (navigator.hardwareConcurrency || 1) + 
-              (navigator.language || '')
-          ).substring(0, 32);
-      }
-
-      function getCookie(cname) {
-          let name = cname + "=";
-          let decodedCookie = decodeURIComponent(document.cookie);
-          let ca = decodedCookie.split(';');
-          for(let i = 0; i < ca.length; i++) {
-              let c = ca[i].trim();
-              if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
-          }
-          return "";
-      }
-
-      function showBlocked(title, msg) {
-          document.body.innerHTML = `
-              <div style="display:flex; justify-content:center; align-items:center; height:100vh; background:#0b1120; color:#ef4444; font-family:sans-serif; text-align:center; padding:20px;">
-                  <div style="background:#1e293b; padding:30px; border-radius:16px; border:1px solid #ef4444; max-width:400px;">
-                      <h1 style="font-size:1.5rem; margin-bottom:12px; color:#ef4444;">${title}</h1>
-                      <p style="color:#94a3b8; font-size:0.9rem; line-height:1.5;">${msg}</p>
-                  </div>
-              </div>`;
-    }
-})();
-    // SECURITY & PIN SYSTEM LOGIC
-    let savedPin = localStorage.getItem('qs_sys_pin') || '1234';
+  <!-- 3. MAIN APPLICATION LOGIC -->
+  <script>
+    // SECURITY & PIN LOGIC
+    let savedPin = localStorage.getItem('legal_os_pin') || '1234';
 
     document.getElementById('loginForm').addEventListener('submit', (e) => {
       e.preventDefault();
@@ -526,6 +560,7 @@
         document.getElementById('authOverlay').style.display = 'none';
         document.getElementById('mainSystem').style.display = 'block';
         document.getElementById('inputPin').value = '';
+        renderAll();
       } else {
         alert('වැරදි Passcode එකකි! (Incorrect Passcode)');
         document.getElementById('inputPin').value = '';
@@ -543,8 +578,8 @@
         const newPin = prompt('Enter NEW Passcode (4 to 6 Digits):');
         if(newPin && newPin.length >= 4) {
           savedPin = newPin;
-          localStorage.setItem('qs_sys_pin', savedPin);
-          alert('Passcode එක සාර්ථකව වෙනස් කරන ලදී! (PIN Changed Successfully)');
+          localStorage.setItem('legal_os_pin', savedPin);
+          alert('Passcode එක සාර්ථකව වෙනස් කරන ලදී!');
         } else {
           alert('Passcode එක අවම වශයෙන් ඉලක්කම් 4ක් විය යුතුය.');
         }
@@ -553,232 +588,230 @@
       }
     }
 
-    // INITIAL SAMPLE DATA
-    const defaultData = [
-        {
-            id: 1,
-            boqNo: "B.1",
-            desc: "Excavation for column foundation",
-            unit: "m3",
-            rows: [
-                { id: 101, subDesc: "Column Footing Type 1", times: 1, l: 1.8, w: 1.8, d: 1.5 },
-                { id: 102, subDesc: "Column Footing Type 2", times: 1, l: 1.8, w: 1.8, d: 1.5 },
-                { id: 103, subDesc: "Column Footing Type 3", times: 1, l: 1.8, w: 1.8, d: 1.5 },
-                { id: 104, subDesc: "Column Footing Type 4", times: 1, l: 1.8, w: 1.8, d: 1.5 },
-                { id: 105, subDesc: "Column Footing Type 5", times: 1, l: 1.8, w: 1.8, d: 1.5 },
-                { id: 106, subDesc: "Column Footing Type 6", times: 1, l: 1.8, w: 1.8, d: 1.5 }
-            ]
-        },
-        {
-            id: 2,
-            boqNo: "B.2",
-            desc: "Excavation for random rubble retaining wall for both sides and front",
-            unit: "m3",
-            rows: [
-                { id: 201, subDesc: "Side Wall A", times: 1, l: 13.6, w: 0.6, d: 1.5 },
-                { id: 202, subDesc: "Side Wall B", times: 1, l: 5.3, w: 0.6, d: 1.5 },
-                { id: 203, subDesc: "Front Sloped Wall 1", times: 0.5, l: 9.3, w: 0.6, d: 1.95 },
-                { id: 204, subDesc: "Front Sloped Wall 2", times: 0.5, l: 11.8, w: 0.6, d: 2.4 },
-                { id: 205, subDesc: "Front Sloped Wall 3", times: 0.5, l: 6.0, w: 0.6, d: 2.4 }
-            ]
-        }
-    ];
-
-    let boqItems = JSON.parse(localStorage.getItem('qs_master_data')) || defaultData;
-
-    document.getElementById('pDate').valueAsDate = new Date();
-
-    function updateProjectMeta() {
-        document.getElementById('dispPName').innerText = document.getElementById('pName').value;
-        document.getElementById('dispPClient').innerText = document.getElementById('pClient').value;
-        document.getElementById('dispPContractor').innerText = document.getElementById('pContractor').value;
-        document.getElementById('dispPSubContractor').innerText = document.getElementById('pSubContractor').value;
-        document.getElementById('dispPLoc').innerText = document.getElementById('pLoc').value;
-        document.getElementById('dispPDate').innerText = document.getElementById('pDate').value;
-        document.getElementById('dispPRef').innerText = document.getElementById('pRef').value;
-        document.getElementById('dispPMeasBy').innerText = document.getElementById('pMeasBy').value;
-        document.getElementById('sigMeasuredName').innerText = document.getElementById('pMeasBy').value;
+    function switchTab(tabId, e) {
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('tab-' + tabId).classList.add('active');
+      if (e && e.currentTarget) {
+        e.currentTarget.classList.add('active');
+      }
     }
 
-    function saveData() {
-        localStorage.setItem('qs_master_data', JSON.stringify(boqItems));
-        renderMasterSheet();
+    // DEFAULT DEMO DATA
+    const defaultData = {
+      cases: [
+        { id: 1, no: "D/123/2026", court: "Kegalle District Court", type: "Land / Partition", plaintiff: "K.M. Jayawardena", defendant: "S.B. Herath", nextDate: "2026-08-15", nextStep: "Filing Plaint & Proxy", lawyer: "Attorney-at-Law", status: "Active" },
+        { id: 2, no: "M/456/2026", court: "Warakapola Magistrate Court", type: "Criminal / Magistrate", plaintiff: "Police / Complainant", defendant: "R.P. Bandara", nextDate: new Date().toISOString().split('T')[0], nextStep: "Trial / Evidence", lawyer: "Attorney-at-Law", status: "Active" }
+      ],
+      clients: [
+        { id: 1, name: "K.M. Jayawardena", nic: "781234567V", phone: "0771234567", agreed: 150000, paid: 50000 },
+        { id: 2, name: "R.P. Bandara", nic: "882345678V", phone: "0719876543", agreed: 80000, paid: 80000 }
+      ]
+    };
+
+    let appState = JSON.parse(localStorage.getItem('legal_os_state')) || defaultData;
+
+    function saveState() {
+      localStorage.setItem('legal_os_state', JSON.stringify(appState));
+      renderAll();
     }
 
-    function resetAllData() {
-        if(confirm("ඔබට පද්ධතියේ ඇති සියලුම දත්ත මුල සිට Reset කිරීමට අවශ්‍යද?")) {
-            boqItems = [];
-            saveData();
-            updateTargetSelect();
-        }
+    function clearAllData() {
+      if(confirm("ඔබට පද්ධතියේ ඇති සියලුම නඩු හා දත්ත ඉවත් කිරීමට අවශ්‍යද?")) {
+        appState = { cases: [], clients: [] };
+        saveState();
+      }
     }
 
-    // 1. Add BOQ Item
-    document.getElementById('newBoqForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        let boqNo = document.getElementById('newBoqNo').value;
-        let desc = document.getElementById('newBoqDesc').value;
-        let unit = document.getElementById('newBoqUnit').value;
+    // CASE MANAGEMENT FORM
+    document.getElementById('caseForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const editId = document.getElementById('cEditId').value;
+      const no = document.getElementById('cNo').value;
+      const court = document.getElementById('cCourt').value;
+      const type = document.getElementById('cType').value;
+      const plaintiff = document.getElementById('cPlaintiff').value;
+      const defendant = document.getElementById('cDefendant').value;
+      const nextDate = document.getElementById('cNextDate').value;
+      const nextStep = document.getElementById('cNextStep').value;
+      const lawyer = document.getElementById('cLawyer').value;
+      const status = document.getElementById('cStatus').value;
 
-        boqItems.push({
-            id: Date.now(),
-            boqNo, desc, unit,
-            rows: []
-        });
-
-        document.getElementById('newBoqForm').reset();
-        updateTargetSelect();
-        saveData();
-    });
-
-    // 2. Add Row Entry
-    document.getElementById('rowForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        let targetId = parseInt(document.getElementById('targetBoqSelect').value);
-        let subDesc = document.getElementById('rSubDesc').value;
-        let times = parseFloat(document.getElementById('rTimes').value) || 1;
-        let l = parseFloat(document.getElementById('rL').value) || 0;
-        let w = parseFloat(document.getElementById('rW').value) || 0;
-        let d = parseFloat(document.getElementById('rD').value) || 0;
-
-        let item = boqItems.find(b => b.id === targetId);
+      if(editId) {
+        const item = appState.cases.find(c => c.id == editId);
         if(item) {
-            item.rows.push({ id: Date.now(), subDesc, times, l, w, d });
+          item.no = no; item.court = court; item.type = type;
+          item.plaintiff = plaintiff; item.defendant = defendant;
+          item.nextDate = nextDate; item.nextStep = nextStep;
+          item.lawyer = lawyer; item.status = status;
         }
+        document.getElementById('cEditId').value = '';
+        document.getElementById('caseFormTitle').innerText = '+ Add New Case File';
+        document.getElementById('cBtnSubmit').innerText = 'Save Case Record';
+      } else {
+        appState.cases.push({ id: Date.now(), no, court, type, plaintiff, defendant, nextDate, nextStep, lawyer, status });
+      }
 
-        document.getElementById('rSubDesc').value = '';
-        document.getElementById('rTimes').value = '1';
-        document.getElementById('rL').value = '';
-        document.getElementById('rW').value = '';
-        document.getElementById('rD').value = '';
-        saveData();
+      document.getElementById('caseForm').reset();
+      saveState();
     });
 
-    function updateTargetSelect() {
-        let select = document.getElementById('targetBoqSelect');
-        select.innerHTML = '';
-        boqItems.forEach(b => {
-            let opt = document.createElement('option');
-            opt.value = b.id;
-            opt.innerText = `${b.boqNo} - ${b.desc} (${b.unit})`;
-            select.appendChild(opt);
+    function editCase(id) {
+      const c = appState.cases.find(item => item.id === id);
+      if(c) {
+        document.getElementById('cEditId').value = c.id;
+        document.getElementById('cNo').value = c.no;
+        document.getElementById('cCourt').value = c.court;
+        document.getElementById('cType').value = c.type;
+        document.getElementById('cPlaintiff').value = c.plaintiff;
+        document.getElementById('cDefendant').value = c.defendant;
+        document.getElementById('cNextDate').value = c.nextDate;
+        document.getElementById('cNextStep').value = c.nextStep;
+        document.getElementById('cLawyer').value = c.lawyer;
+        document.getElementById('cStatus').value = c.status;
+
+        document.getElementById('caseFormTitle').innerText = 'Edit Case Details';
+        document.getElementById('cBtnSubmit').innerText = 'Update Case Record';
+      }
+    }
+
+    function deleteCase(id) {
+      if(confirm("මෙම Case Record එක ඉවත් කිරීමට අවශ්‍යද?")) {
+        appState.cases = appState.cases.filter(c => c.id !== id);
+        saveState();
+      }
+    }
+
+    // CLIENT FORM
+    document.getElementById('clientForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('clName').value;
+      const nic = document.getElementById('clNic').value;
+      const phone = document.getElementById('clPhone').value;
+      const agreed = parseFloat(document.getElementById('clAgreed').value) || 0;
+      const paid = parseFloat(document.getElementById('clPaid').value) || 0;
+
+      appState.clients.push({ id: Date.now(), name, nic, phone, agreed, paid });
+      document.getElementById('clientForm').reset();
+      saveState();
+    });
+
+    function addPayment(id) {
+      const client = appState.clients.find(c => c.id === id);
+      if(client) {
+        const extra = prompt(`Enter Additional Payment for ${client.name} (LKR):`);
+        if(extra && !isNaN(extra)) {
+          client.paid += parseFloat(extra);
+          saveState();
+        }
+      }
+    }
+
+    function deleteClient(id) {
+      if(confirm("මෙම Client Record එක ඉවත් කිරීමට අවශ්‍යද?")) {
+        appState.clients = appState.clients.filter(c => c.id !== id);
+        saveState();
+      }
+    }
+
+    // RENDER ALL DATA
+    function renderAll() {
+      const todayStr = new Date().toISOString().split('T')[0];
+      document.getElementById('diaryTodayDate').innerText = `Date: ${todayStr}`;
+
+      // Metrics
+      let activeCount = appState.cases.filter(c => c.status === 'Active').length;
+      let todayCount = appState.cases.filter(c => c.nextDate === todayStr).length;
+      let totalClients = appState.clients.length;
+      let pendingFees = appState.clients.reduce((acc, c) => acc + (c.agreed - c.paid), 0);
+
+      document.getElementById('metricActiveCases').innerText = activeCount;
+      document.getElementById('metricTodayCases').innerText = todayCount;
+      document.getElementById('metricTotalClients').innerText = totalClients;
+      document.getElementById('metricPendingFees').innerText = "LKR " + (pendingFees > 0 ? pendingFees : 0).toLocaleString('en-US', {minimumFractionDigits:2});
+
+      // Render Cases Table
+      const cBody = document.getElementById('caseTableBody');
+      cBody.innerHTML = '';
+      appState.cases.forEach(c => {
+        let pClass = c.status === 'Active' ? 'status-active' : (c.status === 'Closed / Disposed' ? 'status-closed' : 'status-pending');
+        cBody.innerHTML += `
+          <tr>
+            <td><strong>${c.no}</strong></td>
+            <td>${c.court}</td>
+            <td>${c.type}</td>
+            <td>${c.plaintiff} vs ${c.defendant}</td>
+            <td style="color:var(--accent); font-weight:800;">${c.nextDate}</td>
+            <td>${c.nextStep}</td>
+            <td><span class="status-pill ${pClass}">${c.status}</span></td>
+            <td class="no-print">
+              <button class="btn-edit" onclick="editCase(${c.id})">Edit</button>
+              <button class="btn-del" onclick="deleteCase(${c.id})">×</button>
+            </td>
+          </tr>
+        `;
+      });
+
+      // Render Today's Hearing
+      const tBody = document.getElementById('todayHearingTable');
+      tBody.innerHTML = '';
+      let todayCases = appState.cases.filter(c => c.nextDate === todayStr);
+      if(todayCases.length === 0) {
+        tBody.innerHTML = `<tr><td colspan="6" style="color:var(--text-muted);">අද දිනට නඩු කැඳවීම් නොමැත (No Court Cases Scheduled for Today).</td></tr>`;
+      } else {
+        todayCases.forEach(c => {
+          tBody.innerHTML += `
+            <tr>
+              <td><strong>${c.no}</strong></td>
+              <td>${c.court}</td>
+              <td>${c.plaintiff} vs ${c.defendant}</td>
+              <td style="color:var(--info); font-weight:700;">${c.nextStep}</td>
+              <td>${c.lawyer}</td>
+              <td><span class="status-pill status-active">Scheduled Today</span></td>
+            </tr>
+          `;
         });
+      }
+
+      // Render Upcoming Hearing
+      const uBody = document.getElementById('upcomingHearingTable');
+      uBody.innerHTML = '';
+      let upcoming = [...appState.cases].sort((a,b) => a.nextDate.localeCompare(b.nextDate));
+      upcoming.forEach(c => {
+        uBody.innerHTML += `
+          <tr>
+            <td style="color:var(--accent); font-weight:800;">${c.nextDate}</td>
+            <td><strong>${c.no}</strong></td>
+            <td>${c.court}</td>
+            <td>${c.type}</td>
+            <td>${c.nextStep}</td>
+          </tr>
+        `;
+      });
+
+      // Render Clients Table
+      const clBody = document.getElementById('clientTableBody');
+      clBody.innerHTML = '';
+      appState.clients.forEach(c => {
+        let balance = c.agreed - c.paid;
+        clBody.innerHTML += `
+          <tr>
+            <td><strong>${c.name}</strong></td>
+            <td>${c.nic}</td>
+            <td>${c.phone}</td>
+            <td>Rs. ${c.agreed.toLocaleString()}</td>
+            <td style="color:var(--success);">Rs. ${c.paid.toLocaleString()}</td>
+            <td style="color:${balance > 0 ? 'var(--danger)' : 'var(--success)'}; font-weight:700;">Rs. ${(balance > 0 ? balance : 0).toLocaleString()}</td>
+            <td class="no-print">
+              <button class="btn-sm btn" onclick="addPayment(${c.id})">+ Pay</button>
+              <button class="btn-del" onclick="deleteClient(${c.id})">×</button>
+            </td>
+          </tr>
+        `;
+      });
     }
 
-    function updateRowVal(itemId, rowId, field, val) {
-        let boq = boqItems.find(b => b.id === itemId);
-        if(boq) {
-            let r = boq.rows.find(row => row.id === rowId);
-            if(r) {
-                if(field === 'subDesc') r.subDesc = val;
-                else r[field] = parseFloat(val) || 0;
-                saveData();
-            }
-        }
-    }
-
-    function deleteRow(itemId, rowId) {
-        let boq = boqItems.find(b => b.id === itemId);
-        if(boq) {
-            boq.rows = boq.rows.filter(r => r.id !== rowId);
-            saveData();
-        }
-    }
-
-    function deleteBoqSection(itemId) {
-        if(confirm("මෙම B.O.Q Item එක සම්පූර්ණයෙන්ම ඉවත් කිරීමට අවශ්‍යද?")) {
-            boqItems = boqItems.filter(b => b.id !== itemId);
-            updateTargetSelect();
-            saveData();
-        }
-    }
-
-    function renderMasterSheet() {
-        let container = document.getElementById('boqItemsContainer');
-        container.innerHTML = '';
-
-        boqItems.forEach((boq) => {
-            let wrapper = document.createElement('div');
-            wrapper.className = 'table-wrapper';
-
-            let itemTotalQty = 0;
-
-            let html = `
-                <table>
-                    <thead>
-                        <tr>
-                            <th width="80px">B.O.Q No.</th>
-                            <th>Description</th>
-                            <th width="60px">Unit</th>
-                            <th width="60px">Times / No</th>
-                            <th width="80px">Length</th>
-                            <th width="80px">Width</th>
-                            <th width="80px">Depth</th>
-                            <th width="100px">Qty</th>
-                            <th width="120px">Total</th>
-                            <th width="40px" class="no-print">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td style="font-weight:bold;">${boq.boqNo}</td>
-                            <td style="text-align:left; font-weight:bold;">${boq.desc}</td>
-                            <td>${boq.unit}</td>
-                            <td></td><td></td><td></td><td></td><td></td><td></td>
-                            <td class="no-print"><button class="btn-del" onclick="deleteBoqSection(${boq.id})">×</button></td>
-                        </tr>
-            `;
-
-            boq.rows.forEach((r) => {
-                let qty = 0;
-                if(r.overrideQty !== undefined && r.overrideQty !== 0) {
-                    qty = r.overrideQty;
-                } else {
-                    let fL = r.l > 0 ? r.l : 1;
-                    let fW = r.w > 0 ? r.w : 1;
-                    let fD = r.d > 0 ? r.d : 1;
-                    qty = r.times * fL * fW * fD;
-                }
-
-                itemTotalQty += qty;
-
-                html += `
-                    <tr>
-                        <td></td>
-                        <td style="text-align:left; color:var(--text-muted); font-size:10px;">${r.subDesc || ''}</td>
-                        <td>${boq.unit}</td>
-                        <td><input type="number" class="input-inline" style="width:50px;" value="${r.times}" onchange="updateRowVal(${boq.id}, ${r.id}, 'times', this.value)"></td>
-                        <td><input type="number" class="input-inline" style="width:65px;" value="${r.l || ''}" placeholder="-" onchange="updateRowVal(${boq.id}, ${r.id}, 'l', this.value)"></td>
-                        <td><input type="number" class="input-inline" style="width:65px;" value="${r.w || ''}" placeholder="-" onchange="updateRowVal(${boq.id}, ${r.id}, 'w', this.value)"></td>
-                        <td><input type="number" class="input-inline" style="width:65px;" value="${r.d || ''}" placeholder="-" onchange="updateRowVal(${boq.id}, ${r.id}, 'd', this.value)"></td>
-                        <td style="font-weight:600; color:${qty < 0 ? 'var(--danger)' : 'var(--text-main)'};">${qty.toFixed(2)}</td>
-                        <td></td>
-                        <td class="no-print"><button class="btn-del" onclick="deleteRow(${boq.id}, ${r.id})">×</button></td>
-                    </tr>
-                `;
-            });
-
-            html += `
-                    </tbody>
-                    <tfoot>
-                        <tr class="item-summary-row">
-                            <td colspan="8" style="text-align:right;">TOTAL QUANTITY FOR (${boq.boqNo}) :</td>
-                            <td style="font-size:12px; font-weight:900;">${itemTotalQty.toFixed(2)} ${boq.unit}</td>
-                            <td class="no-print"></td>
-                        </tr>
-                    </tfoot>
-                </table>
-            `;
-
-            wrapper.innerHTML = html;
-            container.appendChild(wrapper);
-        });
-    }
-
-    updateProjectMeta();
-    updateTargetSelect();
-    renderMasterSheet();
-</script>
-
+    renderAll();
+  </script>
 </body>
 </html>
