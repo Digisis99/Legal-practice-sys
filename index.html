@@ -456,24 +456,64 @@
           return false;
       }
   };
-// Single-Device Lock Script
 (function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const clientKey = urlParams.get('key'); // උදා: ?key=LAWYER_SUNIL_001
+      const urlParams = new URLSearchParams(window.location.search);
+      const clientKey = urlParams.get('key');
 
-    if (!clientKey) {
-        document.body.innerHTML = "<h1 style='color:red; text-align:center; margin-top:50px;'>⛔ Unauthorized Access! Valid Key Required.</h1>";
-        return;
-    }
+      // 1. Key එකක් නැත්නම් කෙලින්ම Access Block කරයි
+      if (!clientKey) {
+          showBlocked("⛔ Access Denied!", "Valid Key Required to Open System.");
+          return;
+      }
 
-    const registeredDevice = localStorage.getItem('registered_device_key');
+      // Generate a Unique Fingerprint for the Current Device
+      const deviceFP = generateFingerprint();
+      const storageKey = 'device_bind_' + clientKey;
+      const boundDevice = localStorage.getItem(storageKey);
 
-    if (!registeredDevice) {
-        // පළමු වතාවට Open කරන විට මෙම Device එකට Lock වේ
-        localStorage.setItem('registered_device_key', clientKey);
-    } else if (registeredDevice !== clientKey) {
-        // වෙනත් කෙනෙකුට Forward කර වෙනත් Device එකකින් Open කළහොත් Block වේ
-        document.body.innerHTML = "<h1 style='color:red; text-align:center; margin-top:50px;'>⛔ Access Denied! This link is locked to another device.</h1>";
+      // 2. ප්‍රථම වතාවට මෙම Key එකෙන් Open කරද්දී Device Fingerprint එක Lock වේ
+      if (!boundDevice) {
+          localStorage.setItem(storageKey, deviceFP);
+          // Set a persistent cookie as backup for WhatsApp In-App Browser
+          document.cookie = storageKey + "=" + deviceFP + ";expires=Thu, 18 Dec 2036 12:00:00 UTC;path=/";
+      } 
+      else {
+          const cookieVal = getCookie(storageKey);
+          // 3. වෙනත් Device එකකින් හෝ Resend කර වෙන කෙනෙක් Open කළහොත් Block වේ
+          if (boundDevice !== deviceFP && cookieVal !== deviceFP) {
+              showBlocked("⛔ Link Forwarding Blocked!", "මෙම Link එක වෙනත් දුරකථනයකට/Device එකකට Lock කර ඇත. වෙනත් අය අතර Share කළ නොහැක.");
+              return;
+          }
+      }
+
+      function generateFingerprint() {
+          return btoa(
+              navigator.userAgent + 
+              screen.width + "x" + screen.height + 
+              (navigator.hardwareConcurrency || 1) + 
+              (navigator.language || '')
+          ).substring(0, 32);
+      }
+
+      function getCookie(cname) {
+          let name = cname + "=";
+          let decodedCookie = decodeURIComponent(document.cookie);
+          let ca = decodedCookie.split(';');
+          for(let i = 0; i < ca.length; i++) {
+              let c = ca[i].trim();
+              if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+          }
+          return "";
+      }
+
+      function showBlocked(title, msg) {
+          document.body.innerHTML = `
+              <div style="display:flex; justify-content:center; align-items:center; height:100vh; background:#0b1120; color:#ef4444; font-family:sans-serif; text-align:center; padding:20px;">
+                  <div style="background:#1e293b; padding:30px; border-radius:16px; border:1px solid #ef4444; max-width:400px;">
+                      <h1 style="font-size:1.5rem; margin-bottom:12px; color:#ef4444;">${title}</h1>
+                      <p style="color:#94a3b8; font-size:0.9rem; line-height:1.5;">${msg}</p>
+                  </div>
+              </div>`;
     }
 })();
     // SECURITY & PIN SYSTEM LOGIC
