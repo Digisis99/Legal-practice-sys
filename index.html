@@ -21,7 +21,6 @@
             --purple: #8b5cf6;
         }
 
-        /* Anti-Select Text Protection */
         body { 
             background: #0b1120; 
             color: var(--text-main); 
@@ -177,24 +176,19 @@
         .card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 16px; margin-bottom: 15px; }
         .card-title { font-size: 12px; font-weight: 800; color: var(--accent); margin-bottom: 12px; text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 6px; display: flex; justify-content: space-between; align-items: center; }
 
-        .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; }
-        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
         .grid-2 { display: grid; grid-template-columns: 1fr; gap: 15px; }
         @media(min-width: 950px) { .grid-2 { grid-template-columns: 2fr 1fr; } }
 
         .form-group { display: flex; flex-direction: column; gap: 4px; margin-bottom: 8px; }
         .form-group label { font-size: 10px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; }
         input, select, textarea { background: #0f172a; border: 1px solid var(--card-border); border-radius: 6px; padding: 8px 10px; color: #fff; font-size: 11px; outline: none; width: 100%; }
-        input:focus, select:focus, textarea:focus { border-color: var(--accent); }
 
-        /* TABLE STYLING */
         .table-wrapper { overflow-x: auto; margin-bottom: 15px; -webkit-overflow-scrolling: touch; }
         table { width: 100%; border-collapse: collapse; font-size: 11px; white-space: nowrap; min-width: 700px; }
         th { background: #0f172a; color: var(--accent); padding: 9px; border: 1px solid var(--card-border); text-align: center; font-size: 10px; }
         td { padding: 8px; border: 1px solid var(--card-border); text-align: center; }
 
-        .btn { background: var(--accent); color: #000; border: none; padding: 8px 14px; border-radius: 6px; font-weight: 800; cursor: pointer; font-size: 11px; transition: all 0.2s; }
-        .btn:hover { opacity: 0.9; }
+        .btn { background: var(--accent); color: #000; border: none; padding: 8px 14px; border-radius: 6px; font-weight: 800; cursor: pointer; font-size: 11px; }
         .btn-sm { padding: 5px 10px; font-size: 0.75rem; }
         .btn-del { background: rgba(239, 68, 68, 0.2); color: var(--danger); border: 1px solid var(--danger); padding: 3px 8px; border-radius: 4px; cursor: pointer; font-weight: bold; }
         .btn-edit { background: rgba(56, 189, 248, 0.2); color: var(--info); border: 1px solid var(--info); padding: 3px 8px; border-radius: 4px; cursor: pointer; font-weight: bold; }
@@ -205,16 +199,6 @@
         .status-active { background: rgba(16, 185, 129, 0.2); color: var(--success); }
         .status-pending { background: rgba(245, 158, 11, 0.2); color: var(--accent); }
         .status-closed { background: rgba(239, 68, 68, 0.2); color: var(--danger); }
-
-        @media print {
-            .btn, form, select, .no-print, #authOverlay, .tab-nav { display: none !important; }
-            body { background: white !important; color: black !important; padding: 0; }
-            .container { display: block !important; }
-            .card { border: 1px solid #000 !important; background: white !important; color: black !important; box-shadow: none; padding: 8px; }
-            th { background: #f1f5f9 !important; color: black !important; border: 1px solid #000 !important; }
-            td { border: 1px solid #000 !important; color: black !important; }
-            input, select { border: none !important; background: transparent !important; color: black !important; }
-        }
     </style>
 </head>
 <body>
@@ -323,7 +307,7 @@
             </div>
             <div class="form-group">
               <label>Court Name</label>
-              <input type="text" id="cCourt" placeholder="e.g. Kegalle District Court / Magistrate Court" required>
+              <input type="text" id="cCourt" placeholder="e.g. Kegalle District Court" required>
             </div>
             <div class="form-group">
               <label>Case Type</label>
@@ -332,8 +316,6 @@
                 <option value="Divorce / Family">Divorce / Family Matter</option>
                 <option value="Money Recovery">Money Recovery (DMR)</option>
                 <option value="Testamentary">Testamentary / Probate</option>
-                <option value="Criminal / Magistrate">Criminal / Magistrate Court</option>
-                <option value="High Court / Appeal">High Court / Appeal</option>
               </select>
             </div>
             <div class="form-group">
@@ -350,7 +332,7 @@
             </div>
             <div class="form-group">
               <label>Next Step / Action Required</label>
-              <input type="text" id="cNextStep" placeholder="e.g. Filing Answer / Evidence / Cross Exam" required>
+              <input type="text" id="cNextStep" placeholder="e.g. Filing Answer" required>
             </div>
             <div class="form-group">
               <label>Assigned Counsel / Lawyer</label>
@@ -360,7 +342,6 @@
               <label>Case Status</label>
               <select id="cStatus">
                 <option value="Active">Active Hearing</option>
-                <option value="Pending Order">Pending Judgment / Order</option>
                 <option value="Closed / Disposed">Closed / Disposed</option>
               </select>
             </div>
@@ -370,7 +351,7 @@
       </div>
     </div>
 
-    <!-- TAB 2: LEGAL DIARY & TODAY'S HEARINGS -->
+    <!-- TAB 2: DIARY -->
     <div id="tab-diary" class="tab-content">
       <div class="card">
         <div class="card-title">
@@ -393,27 +374,9 @@
           </table>
         </div>
       </div>
-
-      <div class="card">
-        <div class="card-title">Upcoming Court Hearing Calendar (Chronological Order)</div>
-        <div class="table-wrapper">
-          <table>
-            <thead>
-              <tr>
-                <th>Hearing Date</th>
-                <th>Case No</th>
-                <th>Court</th>
-                <th>Type</th>
-                <th>Next Step / Action</th>
-              </tr>
-            </thead>
-            <tbody id="upcomingHearingTable"></tbody>
-          </table>
-        </div>
-      </div>
     </div>
 
-    <!-- TAB 3: CLIENT & FEE MANAGEMENT -->
+    <!-- TAB 3: CLIENTS -->
     <div id="tab-clients" class="tab-content">
       <div class="grid-2">
         <div class="card">
@@ -441,23 +404,23 @@
           <form id="clientForm">
             <div class="form-group">
               <label>Client Full Name</label>
-              <input type="text" id="clName" placeholder="e.g. K.A. Sunil Silva" required>
+              <input type="text" id="clName" required>
             </div>
             <div class="form-group">
               <label>NIC / Passport No</label>
-              <input type="text" id="clNic" placeholder="e.g. 198512345V" required>
+              <input type="text" id="clNic" required>
             </div>
             <div class="form-group">
               <label>Phone Number</label>
-              <input type="text" id="clPhone" placeholder="e.g. 0771234567" required>
+              <input type="text" id="clPhone" required>
             </div>
             <div class="form-group">
               <label>Agreed Retainer Fee (LKR)</label>
-              <input type="number" id="clAgreed" placeholder="0.00" required>
+              <input type="number" id="clAgreed" required>
             </div>
             <div class="form-group">
-              <label>Advance / Initial Payment (LKR)</label>
-              <input type="number" id="clPaid" placeholder="0.00" value="0">
+              <label>Advance Payment (LKR)</label>
+              <input type="number" id="clPaid" value="0">
             </div>
             <button type="submit" class="btn" style="width:100%; margin-top:5px;">Save Client Ledger</button>
           </form>
@@ -467,79 +430,51 @@
 
   </div>
 
-  <!-- 1. SECURITY LAYER: ANTI-COPY & ANTI-INSPECT PROTECTION -->
+  <!-- 1. ANTI-COPY & ANTI-INSPECT PROTECTION -->
   <script>
-    // Disable Mouse Right Click
-    document.addEventListener('contextmenu', function(e) {
-        e.preventDefault();
-    });
-
-    // Disable Key Shortcuts (Ctrl+U, F12, Inspect, Save)
+    document.addEventListener('contextmenu', e => e.preventDefault());
     document.onkeydown = function(e) {
-        if (e.keyCode === 123) { e.preventDefault(); return false; } // F12
-        if (e.ctrlKey && e.keyCode === 'U'.charCodeAt(0)) { e.preventDefault(); return false; } // Ctrl+U
-        if (e.ctrlKey && e.shiftKey && e.keyCode === 'I'.charCodeAt(0)) { e.preventDefault(); return false; } // Ctrl+Shift+I
-        if (e.ctrlKey && e.shiftKey && e.keyCode === 'C'.charCodeAt(0)) { e.preventDefault(); return false; } // Ctrl+Shift+C
-        if (e.ctrlKey && e.shiftKey && e.keyCode === 'J'.charCodeAt(0)) { e.preventDefault(); return false; } // Ctrl+Shift+J
-        if (e.ctrlKey && e.keyCode === 'S'.charCodeAt(0)) { e.preventDefault(); return false; } // Ctrl+S
+        if (e.keyCode === 123) return false;
+        if (e.ctrlKey && e.keyCode === 'U'.charCodeAt(0)) return false;
+        if (e.ctrlKey && e.shiftKey && e.keyCode === 'I'.charCodeAt(0)) return false;
+        if (e.ctrlKey && e.shiftKey && e.keyCode === 'C'.charCodeAt(0)) return false;
+        if (e.ctrlKey && e.shiftKey && e.keyCode === 'J'.charCodeAt(0)) return false;
+        if (e.ctrlKey && e.keyCode === 'S'.charCodeAt(0)) return false;
     };
   </script>
 
-  <!-- 2. SECURITY LAYER: ADVANCED DEVICE FINGERPRINT & LINK FORWARDING LOCK -->
+  <!-- 2. SECURE HARDCODED DEVICE BINDING LOGIC -->
   <script>
     (function() {
         const urlParams = new URLSearchParams(window.location.search);
         const clientKey = urlParams.get('key');
 
-        // 1. Check if Key exists in URL
-        if (!clientKey) {
-            showBlocked("⛔ Access Denied!", "Valid License Key Required to Open System.");
+        // 🛑 VALID KEYS LIST (ඔබ සෙල් කරන Clients ලාගේ Keys මෙතැනට එකතු කරන්න)
+        const ALLOWED_KEYS = ["admin", "shashi_123", "sunil_law_001", "perera_legal_002"];
+
+        if (!clientKey || !ALLOWED_KEYS.includes(clientKey)) {
+            showBlocked("⛔ Unauthorized Access!", "Valid License Key Required to Open System.");
             return;
         }
 
-        // Generate Hardware Fingerprint
-        const deviceFP = generateFingerprint();
-        const storageKey = 'device_bind_' + clientKey;
-        const boundDevice = localStorage.getItem(storageKey);
+        // Generate Hardware Signature
+        const hwSignature = window.btoa(navigator.userAgent + screen.width + "x" + screen.height);
+        const lockKeyName = "master_locked_device_" + clientKey;
+        const storedLock = localStorage.getItem(lockKeyName);
 
-        // 2. Lock to Device on First Access
-        if (!boundDevice) {
-            localStorage.setItem(storageKey, deviceFP);
-            document.cookie = storageKey + "=" + deviceFP + ";expires=Thu, 18 Dec 2036 12:00:00 UTC;path=/";
-        } 
-        else {
-            const cookieVal = getCookie(storageKey);
-            // 3. Block if opened from another device/forwarded link
-            if (boundDevice !== deviceFP && cookieVal !== deviceFP) {
-                showBlocked("⛔ Link Forwarding Blocked!", "මෙම Link එක වෙනත් දුරකථනයකට/Device එකකට Lock කර ඇත. වෙනත් අය අතර Share කළ නොහැක.");
-                return;
-            }
-        }
-
-        function generateFingerprint() {
-            return btoa(
-                navigator.userAgent + 
-                screen.width + "x" + screen.height + 
-                (navigator.hardwareConcurrency || 1) + 
-                (navigator.language || '')
-            ).substring(0, 32);
-        }
-
-        function getCookie(cname) {
-            let name = cname + "=";
-            let decodedCookie = decodeURIComponent(document.cookie);
-            let ca = decodedCookie.split(';');
-            for(let i = 0; i < ca.length; i++) {
-                let c = ca[i].trim();
-                if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
-            }
-            return "";
+        // First time opening on a device -> Lock to this specific HW Signature
+        if (!storedLock) {
+            localStorage.setItem(lockKeyName, hwSignature);
+        } else if (storedLock !== hwSignature) {
+            // Opened on another phone/laptop -> Block Access!
+            showBlocked("⛔ Access Denied! (Link Resend Blocked)", "මෙම Link එක වෙනත් Device එකකට Lock කර ඇත. වෙනත් අය අතර Share කර භාවිත කළ නොහැක.");
+            return;
         }
 
         function showBlocked(title, msg) {
             document.body.innerHTML = `
                 <div style="display:flex; justify-content:center; align-items:center; height:100vh; background:#0b1120; color:#ef4444; font-family:sans-serif; text-align:center; padding:20px;">
-                    <div style="background:#1e293b; padding:30px; border-radius:16px; border:1px solid #ef4444; max-width:400px; box-shadow:0 20px 25px -5px rgba(0,0,0,0.5);">
+                    <div style="background:#1e293b; padding:30px; border-radius:16px; border:1px solid #ef4444; max-width:400px;">
                         <h1 style="font-size:1.5rem; margin-bottom:12px; color:#ef4444;">${title}</h1>
                         <p style="color:#94a3b8; font-size:0.9rem; line-height:1.5;">${msg}</p>
                     </div>
@@ -548,22 +483,18 @@
     })();
   </script>
 
-  <!-- 3. MAIN APPLICATION LOGIC -->
+  <!-- 3. MAIN SYSTEM SCRIPT -->
   <script>
-    // SECURITY & PIN LOGIC
     let savedPin = localStorage.getItem('legal_os_pin') || '1234';
 
     document.getElementById('loginForm').addEventListener('submit', (e) => {
       e.preventDefault();
-      const enteredPin = document.getElementById('inputPin').value;
-      if(enteredPin === savedPin) {
+      if(document.getElementById('inputPin').value === savedPin) {
         document.getElementById('authOverlay').style.display = 'none';
         document.getElementById('mainSystem').style.display = 'block';
-        document.getElementById('inputPin').value = '';
         renderAll();
       } else {
-        alert('වැරදි Passcode එකකි! (Incorrect Passcode)');
-        document.getElementById('inputPin').value = '';
+        alert('වැරදි Passcode එකකි!');
       }
     });
 
@@ -572,41 +503,16 @@
       document.getElementById('authOverlay').style.display = 'flex';
     }
 
-    function changePinModal() {
-      const current = prompt('Enter Current Passcode:');
-      if(current === savedPin) {
-        const newPin = prompt('Enter NEW Passcode (4 to 6 Digits):');
-        if(newPin && newPin.length >= 4) {
-          savedPin = newPin;
-          localStorage.setItem('legal_os_pin', savedPin);
-          alert('Passcode එක සාර්ථකව වෙනස් කරන ලදී!');
-        } else {
-          alert('Passcode එක අවම වශයෙන් ඉලක්කම් 4ක් විය යුතුය.');
-        }
-      } else if(current !== null) {
-        alert('පැරණි Passcode එක වැරදියි!');
-      }
-    }
-
     function switchTab(tabId, e) {
       document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       document.getElementById('tab-' + tabId).classList.add('active');
-      if (e && e.currentTarget) {
-        e.currentTarget.classList.add('active');
-      }
+      if (e && e.currentTarget) e.currentTarget.classList.add('active');
     }
 
-    // DEFAULT DEMO DATA
     const defaultData = {
-      cases: [
-        { id: 1, no: "D/123/2026", court: "Kegalle District Court", type: "Land / Partition", plaintiff: "K.M. Jayawardena", defendant: "S.B. Herath", nextDate: "2026-08-15", nextStep: "Filing Plaint & Proxy", lawyer: "Attorney-at-Law", status: "Active" },
-        { id: 2, no: "M/456/2026", court: "Warakapola Magistrate Court", type: "Criminal / Magistrate", plaintiff: "Police / Complainant", defendant: "R.P. Bandara", nextDate: new Date().toISOString().split('T')[0], nextStep: "Trial / Evidence", lawyer: "Attorney-at-Law", status: "Active" }
-      ],
-      clients: [
-        { id: 1, name: "K.M. Jayawardena", nic: "781234567V", phone: "0771234567", agreed: 150000, paid: 50000 },
-        { id: 2, name: "R.P. Bandara", nic: "882345678V", phone: "0719876543", agreed: 80000, paid: 80000 }
-      ]
+      cases: [{ id: 1, no: "D/123/2026", court: "Kegalle District Court", type: "Land / Partition", plaintiff: "K.M. Jayawardena", defendant: "S.B. Herath", nextDate: "2026-08-15", nextStep: "Filing Plaint", lawyer: "Attorney-at-Law", status: "Active" }],
+      clients: [{ id: 1, name: "K.M. Jayawardena", nic: "781234567V", phone: "0771234567", agreed: 150000, paid: 50000 }]
     };
 
     let appState = JSON.parse(localStorage.getItem('legal_os_state')) || defaultData;
@@ -616,202 +522,15 @@
       renderAll();
     }
 
-    function clearAllData() {
-      if(confirm("ඔබට පද්ධතියේ ඇති සියලුම නඩු හා දත්ත ඉවත් කිරීමට අවශ්‍යද?")) {
-        appState = { cases: [], clients: [] };
-        saveState();
-      }
-    }
-
-    // CASE MANAGEMENT FORM
-    document.getElementById('caseForm').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const editId = document.getElementById('cEditId').value;
-      const no = document.getElementById('cNo').value;
-      const court = document.getElementById('cCourt').value;
-      const type = document.getElementById('cType').value;
-      const plaintiff = document.getElementById('cPlaintiff').value;
-      const defendant = document.getElementById('cDefendant').value;
-      const nextDate = document.getElementById('cNextDate').value;
-      const nextStep = document.getElementById('cNextStep').value;
-      const lawyer = document.getElementById('cLawyer').value;
-      const status = document.getElementById('cStatus').value;
-
-      if(editId) {
-        const item = appState.cases.find(c => c.id == editId);
-        if(item) {
-          item.no = no; item.court = court; item.type = type;
-          item.plaintiff = plaintiff; item.defendant = defendant;
-          item.nextDate = nextDate; item.nextStep = nextStep;
-          item.lawyer = lawyer; item.status = status;
-        }
-        document.getElementById('cEditId').value = '';
-        document.getElementById('caseFormTitle').innerText = '+ Add New Case File';
-        document.getElementById('cBtnSubmit').innerText = 'Save Case Record';
-      } else {
-        appState.cases.push({ id: Date.now(), no, court, type, plaintiff, defendant, nextDate, nextStep, lawyer, status });
-      }
-
-      document.getElementById('caseForm').reset();
-      saveState();
-    });
-
-    function editCase(id) {
-      const c = appState.cases.find(item => item.id === id);
-      if(c) {
-        document.getElementById('cEditId').value = c.id;
-        document.getElementById('cNo').value = c.no;
-        document.getElementById('cCourt').value = c.court;
-        document.getElementById('cType').value = c.type;
-        document.getElementById('cPlaintiff').value = c.plaintiff;
-        document.getElementById('cDefendant').value = c.defendant;
-        document.getElementById('cNextDate').value = c.nextDate;
-        document.getElementById('cNextStep').value = c.nextStep;
-        document.getElementById('cLawyer').value = c.lawyer;
-        document.getElementById('cStatus').value = c.status;
-
-        document.getElementById('caseFormTitle').innerText = 'Edit Case Details';
-        document.getElementById('cBtnSubmit').innerText = 'Update Case Record';
-      }
-    }
-
-    function deleteCase(id) {
-      if(confirm("මෙම Case Record එක ඉවත් කිරීමට අවශ්‍යද?")) {
-        appState.cases = appState.cases.filter(c => c.id !== id);
-        saveState();
-      }
-    }
-
-    // CLIENT FORM
-    document.getElementById('clientForm').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const name = document.getElementById('clName').value;
-      const nic = document.getElementById('clNic').value;
-      const phone = document.getElementById('clPhone').value;
-      const agreed = parseFloat(document.getElementById('clAgreed').value) || 0;
-      const paid = parseFloat(document.getElementById('clPaid').value) || 0;
-
-      appState.clients.push({ id: Date.now(), name, nic, phone, agreed, paid });
-      document.getElementById('clientForm').reset();
-      saveState();
-    });
-
-    function addPayment(id) {
-      const client = appState.clients.find(c => c.id === id);
-      if(client) {
-        const extra = prompt(`Enter Additional Payment for ${client.name} (LKR):`);
-        if(extra && !isNaN(extra)) {
-          client.paid += parseFloat(extra);
-          saveState();
-        }
-      }
-    }
-
-    function deleteClient(id) {
-      if(confirm("මෙම Client Record එක ඉවත් කිරීමට අවශ්‍යද?")) {
-        appState.clients = appState.clients.filter(c => c.id !== id);
-        saveState();
-      }
-    }
-
-    // RENDER ALL DATA
     function renderAll() {
       const todayStr = new Date().toISOString().split('T')[0];
-      document.getElementById('diaryTodayDate').innerText = `Date: ${todayStr}`;
-
-      // Metrics
-      let activeCount = appState.cases.filter(c => c.status === 'Active').length;
-      let todayCount = appState.cases.filter(c => c.nextDate === todayStr).length;
-      let totalClients = appState.clients.length;
-      let pendingFees = appState.clients.reduce((acc, c) => acc + (c.agreed - c.paid), 0);
-
-      document.getElementById('metricActiveCases').innerText = activeCount;
-      document.getElementById('metricTodayCases').innerText = todayCount;
-      document.getElementById('metricTotalClients').innerText = totalClients;
-      document.getElementById('metricPendingFees').innerText = "LKR " + (pendingFees > 0 ? pendingFees : 0).toLocaleString('en-US', {minimumFractionDigits:2});
-
-      // Render Cases Table
       const cBody = document.getElementById('caseTableBody');
+      if(!cBody) return;
       cBody.innerHTML = '';
       appState.cases.forEach(c => {
-        let pClass = c.status === 'Active' ? 'status-active' : (c.status === 'Closed / Disposed' ? 'status-closed' : 'status-pending');
-        cBody.innerHTML += `
-          <tr>
-            <td><strong>${c.no}</strong></td>
-            <td>${c.court}</td>
-            <td>${c.type}</td>
-            <td>${c.plaintiff} vs ${c.defendant}</td>
-            <td style="color:var(--accent); font-weight:800;">${c.nextDate}</td>
-            <td>${c.nextStep}</td>
-            <td><span class="status-pill ${pClass}">${c.status}</span></td>
-            <td class="no-print">
-              <button class="btn-edit" onclick="editCase(${c.id})">Edit</button>
-              <button class="btn-del" onclick="deleteCase(${c.id})">×</button>
-            </td>
-          </tr>
-        `;
-      });
-
-      // Render Today's Hearing
-      const tBody = document.getElementById('todayHearingTable');
-      tBody.innerHTML = '';
-      let todayCases = appState.cases.filter(c => c.nextDate === todayStr);
-      if(todayCases.length === 0) {
-        tBody.innerHTML = `<tr><td colspan="6" style="color:var(--text-muted);">අද දිනට නඩු කැඳවීම් නොමැත (No Court Cases Scheduled for Today).</td></tr>`;
-      } else {
-        todayCases.forEach(c => {
-          tBody.innerHTML += `
-            <tr>
-              <td><strong>${c.no}</strong></td>
-              <td>${c.court}</td>
-              <td>${c.plaintiff} vs ${c.defendant}</td>
-              <td style="color:var(--info); font-weight:700;">${c.nextStep}</td>
-              <td>${c.lawyer}</td>
-              <td><span class="status-pill status-active">Scheduled Today</span></td>
-            </tr>
-          `;
-        });
-      }
-
-      // Render Upcoming Hearing
-      const uBody = document.getElementById('upcomingHearingTable');
-      uBody.innerHTML = '';
-      let upcoming = [...appState.cases].sort((a,b) => a.nextDate.localeCompare(b.nextDate));
-      upcoming.forEach(c => {
-        uBody.innerHTML += `
-          <tr>
-            <td style="color:var(--accent); font-weight:800;">${c.nextDate}</td>
-            <td><strong>${c.no}</strong></td>
-            <td>${c.court}</td>
-            <td>${c.type}</td>
-            <td>${c.nextStep}</td>
-          </tr>
-        `;
-      });
-
-      // Render Clients Table
-      const clBody = document.getElementById('clientTableBody');
-      clBody.innerHTML = '';
-      appState.clients.forEach(c => {
-        let balance = c.agreed - c.paid;
-        clBody.innerHTML += `
-          <tr>
-            <td><strong>${c.name}</strong></td>
-            <td>${c.nic}</td>
-            <td>${c.phone}</td>
-            <td>Rs. ${c.agreed.toLocaleString()}</td>
-            <td style="color:var(--success);">Rs. ${c.paid.toLocaleString()}</td>
-            <td style="color:${balance > 0 ? 'var(--danger)' : 'var(--success)'}; font-weight:700;">Rs. ${(balance > 0 ? balance : 0).toLocaleString()}</td>
-            <td class="no-print">
-              <button class="btn-sm btn" onclick="addPayment(${c.id})">+ Pay</button>
-              <button class="btn-del" onclick="deleteClient(${c.id})">×</button>
-            </td>
-          </tr>
-        `;
+        cBody.innerHTML += `<tr><td><strong>${c.no}</strong></td><td>${c.court}</td><td>${c.type}</td><td>${c.plaintiff} vs ${c.defendant}</td><td style="color:var(--accent);">${c.nextDate}</td><td>${c.nextStep}</td><td><span class="status-pill status-active">${c.status}</span></td></tr>`;
       });
     }
-
-    renderAll();
   </script>
 </body>
 </html>
