@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>Legal OS - Lawyer Practice & Case Management System</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -34,7 +34,7 @@
         }
 
         * { box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; padding: 0; }
-        @media(min-width: 768px) { body { padding: 20px; } }
+        @media(min-width: 768px) { body { padding: 16px; } }
 
         .container { max-width: 1350px; margin: 0 auto; display: none; width: 100%; }
 
@@ -54,10 +54,10 @@
             background: var(--card-bg);
             backdrop-filter: blur(20px);
             border: 1px solid var(--card-border);
-            padding: 2.5rem 1.8rem;
+            padding: 2rem 1.5rem;
             border-radius: 20px;
             width: 100%;
-            max-width: 380px;
+            max-width: 360px;
             text-align: center;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
@@ -171,9 +171,9 @@
             background: none;
             border: none;
             color: var(--text-muted);
-            padding: 8px 12px;
+            padding: 10px 14px;
             font-weight: 700;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             cursor: pointer;
             border-radius: 8px;
             transition: all 0.3s ease;
@@ -203,7 +203,7 @@
 
         .form-group { display: flex; flex-direction: column; gap: 4px; margin-bottom: 8px; }
         .form-group label { font-size: 10px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; }
-        input, select, textarea { background: #0f172a; border: 1px solid var(--card-border); border-radius: 6px; padding: 8px 10px; color: #fff; font-size: 11px; outline: none; width: 100%; }
+        input, select, textarea { background: #0f172a; border: 1px solid var(--card-border); border-radius: 6px; padding: 10px; color: #fff; font-size: 12px; outline: none; width: 100%; }
 
         /* TABLE RESPONSIVE SCROLL */
         .table-wrapper { 
@@ -214,13 +214,15 @@
             -webkit-overflow-scrolling: touch;
         }
         table { width: 100%; border-collapse: collapse; font-size: 11px; white-space: nowrap; min-width: 650px; }
-        th { background: #0f172a; color: var(--accent); padding: 9px; border: 1px solid var(--card-border); text-align: center; font-size: 10px; }
-        td { padding: 8px; border: 1px solid var(--card-border); text-align: center; }
+        th { background: #0f172a; color: var(--accent); padding: 10px; border: 1px solid var(--card-border); text-align: center; font-size: 10px; }
+        td { padding: 9px; border: 1px solid var(--card-border); text-align: center; }
 
         .btn { background: var(--accent); color: #000; border: none; padding: 8px 12px; border-radius: 6px; font-weight: 800; cursor: pointer; font-size: 11px; }
-        .btn-sm { padding: 5px 8px; font-size: 0.7rem; }
-        .btn-del { background: rgba(239, 68, 68, 0.2); color: var(--danger); border: 1px solid var(--danger); padding: 3px 8px; border-radius: 4px; cursor: pointer; font-weight: bold; }
-        .btn-edit { background: rgba(56, 189, 248, 0.2); color: var(--info); border: 1px solid var(--info); padding: 3px 8px; border-radius: 4px; cursor: pointer; font-weight: bold; margin-right: 4px; }
+        .btn-sm { padding: 5px 8px; font-size: 0.75rem; }
+        .btn-pay { background: rgba(16, 185, 129, 0.2); color: var(--success); border: 1px solid var(--success); padding: 4px 10px; border-radius: 4px; cursor: pointer; font-weight: bold; margin-right: 4px; }
+        .btn-pay:hover { background: var(--success); color: #000; }
+        .btn-del { background: rgba(239, 68, 68, 0.2); color: var(--danger); border: 1px solid var(--danger); padding: 4px 8px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .btn-edit { background: rgba(56, 189, 248, 0.2); color: var(--info); border: 1px solid var(--info); padding: 4px 8px; border-radius: 4px; cursor: pointer; font-weight: bold; margin-right: 4px; }
         .btn-sec { background: rgba(255, 255, 255, 0.08); color: var(--text-main); border: 1px solid var(--card-border); }
         .btn-danger-sec { background: rgba(239, 68, 68, 0.2); color: var(--danger); border: 1px solid var(--danger); }
 
@@ -451,23 +453,23 @@
           <form id="clientForm" onsubmit="return false;">
             <div class="form-group">
               <label>Client Full Name</label>
-              <input type="text" id="clName" required>
+              <input type="text" id="clName" placeholder="e.g. Sunil Silva" required>
             </div>
             <div class="form-group">
               <label>NIC / Passport No</label>
-              <input type="text" id="clNic" required>
+              <input type="text" id="clNic" placeholder="e.g. 198512345V" required>
             </div>
             <div class="form-group">
               <label>Phone Number</label>
-              <input type="text" id="clPhone" required>
+              <input type="text" id="clPhone" placeholder="e.g. 0771234567" required>
             </div>
             <div class="form-group">
               <label>Agreed Retainer Fee (LKR)</label>
-              <input type="number" id="clAgreed" required>
+              <input type="number" id="clAgreed" placeholder="0.00" required>
             </div>
             <div class="form-group">
               <label>Advance Payment (LKR)</label>
-              <input type="number" id="clPaid" value="0">
+              <input type="number" id="clPaid" placeholder="0.00" value="0">
             </div>
             <button type="button" class="btn" onclick="saveClientRecord()" style="width:100%; margin-top:5px;">Save Client Ledger</button>
           </form>
@@ -532,7 +534,7 @@
     })();
   </script>
 
-  <!-- MAIN SYSTEM SCRIPT WITH FULL RENDER LOGIC -->
+  <!-- MAIN SYSTEM SCRIPT WITH FULL RENDER & PAYMENT UPDATE LOGIC -->
   <script>
     function getSavedPin() {
       return localStorage.getItem('legal_os_pin') || '1234';
@@ -673,6 +675,21 @@
       saveState();
     }
 
+    // UPDATE CLIENT PAYMENT FUNCTION (+ PAY BUTTON)
+    function addPayment(clientId) {
+      const client = appState.clients.find(c => c.id === clientId);
+      if(client) {
+        const extraPayment = prompt(`${client.name} මහතාගෙන් ලැබුණු අලුත් මුදල ඇතුළත් කරන්න (LKR):`);
+        if(extraPayment !== null && !isNaN(extraPayment) && parseFloat(extraPayment) > 0) {
+          client.paid += parseFloat(extraPayment);
+          saveState();
+          alert("ගෙවීම සාර්ථකව Update කරන ලදී!");
+        } else if(extraPayment !== null) {
+          alert("කරුණාකර නිවැරදි මුදලක් ඇතුළත් කරන්න.");
+        }
+      }
+    }
+
     function deleteCase(id) {
       if(confirm("මෙම Case Record එක ඉවත් කිරීමට අවශ්‍යද?")) {
         appState.cases = appState.cases.filter(c => c.id !== id);
@@ -687,7 +704,7 @@
       }
     }
 
-    // COMPLETE RENDER ALL LOGIC FOR METRICS AND TABLES
+    // COMPLETE RENDER LOGIC
     function renderAll() {
       const todayStr = new Date().toISOString().split('T')[0];
       const diaryTodayDate = document.getElementById('diaryTodayDate');
@@ -766,7 +783,7 @@
         });
       }
 
-      // 5. Render Client Table
+      // 5. Render Client Table with Payment Update Button
       const clBody = document.getElementById('clientTableBody');
       if(clBody) {
         clBody.innerHTML = '';
@@ -780,7 +797,10 @@
               <td>Rs. ${c.agreed.toLocaleString()}</td>
               <td style="color:var(--success);">Rs. ${c.paid.toLocaleString()}</td>
               <td style="color:${balance > 0 ? 'var(--danger)' : 'var(--success)'}; font-weight:700;">Rs. ${(balance > 0 ? balance : 0).toLocaleString()}</td>
-              <td class="no-print"><button class="btn-del" onclick="deleteClient(${c.id})">×</button></td>
+              <td class="no-print">
+                <button class="btn-pay" onclick="addPayment(${c.id})">+ Pay</button>
+                <button class="btn-del" onclick="deleteClient(${c.id})">×</button>
+              </td>
             </tr>`;
         });
       }
