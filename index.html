@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Legal OS - Lawyer Practice & Case Management System</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -24,12 +24,13 @@
         body { 
             background: #0b1120; 
             color: var(--text-main); 
-            padding: 10px; 
+            padding: 8px; 
             min-height: 100vh;
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
             user-select: none;
+            overflow-x: hidden;
         }
 
         * { box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; padding: 0; }
@@ -53,7 +54,7 @@
             background: var(--card-bg);
             backdrop-filter: blur(20px);
             border: 1px solid var(--card-border);
-            padding: 2.5rem 2rem;
+            padding: 2.5rem 1.8rem;
             border-radius: 20px;
             width: 100%;
             max-width: 380px;
@@ -61,23 +62,23 @@
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
 
-        .auth-card i.lock-icon { font-size: 2.8rem; color: var(--accent); margin-bottom: 1rem; }
-        .auth-card h2 { font-size: 1.3rem; font-weight: 800; margin-bottom: 0.5rem; }
+        .auth-card i.lock-icon { font-size: 2.5rem; color: var(--accent); margin-bottom: 1rem; }
+        .auth-card h2 { font-size: 1.2rem; font-weight: 800; margin-bottom: 0.5rem; }
         .auth-card p { color: var(--text-muted); font-size: 0.8rem; margin-bottom: 1.5rem; }
 
         .pin-input {
             letter-spacing: 8px;
-            font-size: 1.5rem !important;
+            font-size: 1.4rem !important;
             text-align: center;
             font-weight: 800;
         }
 
-        /* HEADER */
+        /* HEADER Responsive */
         header {
             background: rgba(30, 41, 59, 0.6);
             backdrop-filter: blur(16px);
             border: 1px solid var(--card-border);
-            padding: 1.2rem;
+            padding: 1rem;
             border-radius: 14px;
             display: flex;
             flex-direction: column;
@@ -96,72 +97,91 @@
         }
 
         header h1 {
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             font-weight: 800;
             color: var(--accent);
             display: flex;
             align-items: center;
             gap: 10px;
         }
+        @media(min-width: 768px) { header h1 { font-size: 1.4rem; } }
 
-        .header-btns { display: flex; gap: 8px; flex-wrap: wrap; width: 100%; }
-        @media(min-width: 768px) { .header-btns { width: auto; } }
+        .header-btns { display: flex; gap: 8px; width: 100%; justify-content: space-between; }
+        @media(min-width: 768px) { .header-btns { width: auto; justify-content: flex-end; } }
 
-        /* DASHBOARD METRICS */
+        /* DASHBOARD METRICS RESPONSIVE */
         .metrics-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 12px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
             margin-bottom: 1.2rem;
+        }
+        @media(min-width: 768px) {
+            .metrics-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 12px;
+            }
         }
 
         .metric-card {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
             border-radius: 12px;
-            padding: 1rem;
+            padding: 0.8rem;
             display: flex;
-            align-items: center;
-            gap: 15px;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+        }
+        @media(min-width: 768px) {
+            .metric-card {
+                flex-direction: row;
+                align-items: center;
+                gap: 15px;
+                padding: 1rem;
+            }
         }
 
         .metric-icon {
-            width: 48px; height: 48px;
-            border-radius: 10px;
+            width: 36px; height: 36px;
+            border-radius: 8px;
             display: flex; align-items: center; justify-content: center;
-            font-size: 1.3rem;
+            font-size: 1.1rem;
         }
+        @media(min-width: 768px) { .metric-icon { width: 48px; height: 48px; border-radius: 10px; font-size: 1.3rem; } }
 
-        .metric-info h3 { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; }
-        .metric-info .val { font-size: 1.4rem; font-weight: 800; color: var(--text-main); }
+        .metric-info h3 { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; }
+        .metric-info .val { font-size: 1.1rem; font-weight: 800; color: var(--text-main); }
+        @media(min-width: 768px) { .metric-info h3 { font-size: 0.75rem; } .metric-info .val { font-size: 1.3rem; } }
 
         /* TABS NAVIGATION */
         .tab-nav {
             display: flex;
-            gap: 8px;
+            gap: 6px;
             margin-bottom: 1.2rem;
             background: rgba(15, 23, 42, 0.6);
-            padding: 6px;
+            padding: 5px;
             border-radius: 12px;
             border: 1px solid var(--card-border);
             overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
+            white-space: nowrap;
         }
 
         .tab-btn {
             background: none;
             border: none;
             color: var(--text-muted);
-            padding: 10px 16px;
+            padding: 8px 12px;
             font-weight: 700;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             cursor: pointer;
             border-radius: 8px;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
-            gap: 8px;
-            white-space: nowrap;
+            gap: 6px;
+            flex: 1;
+            justify-content: center;
         }
 
         .tab-btn.active, .tab-btn:hover {
@@ -173,8 +193,10 @@
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
-        .card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 16px; margin-bottom: 15px; }
-        .card-title { font-size: 12px; font-weight: 800; color: var(--accent); margin-bottom: 12px; text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 6px; display: flex; justify-content: space-between; align-items: center; }
+        .card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 12px; margin-bottom: 15px; }
+        @media(min-width: 768px) { .card { padding: 16px; } }
+        
+        .card-title { font-size: 11px; font-weight: 800; color: var(--accent); margin-bottom: 12px; text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 6px; display: flex; justify-content: space-between; align-items: center; }
 
         .grid-2 { display: grid; grid-template-columns: 1fr; gap: 15px; }
         @media(min-width: 950px) { .grid-2 { grid-template-columns: 2fr 1fr; } }
@@ -183,15 +205,22 @@
         .form-group label { font-size: 10px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; }
         input, select, textarea { background: #0f172a; border: 1px solid var(--card-border); border-radius: 6px; padding: 8px 10px; color: #fff; font-size: 11px; outline: none; width: 100%; }
 
-        .table-wrapper { overflow-x: auto; margin-bottom: 15px; -webkit-overflow-scrolling: touch; }
-        table { width: 100%; border-collapse: collapse; font-size: 11px; white-space: nowrap; min-width: 700px; }
+        /* TABLE RESPONSIVE SCROLL */
+        .table-wrapper { 
+            overflow-x: auto; 
+            margin-bottom: 10px; 
+            border-radius: 8px; 
+            border: 1px solid var(--card-border);
+            -webkit-overflow-scrolling: touch;
+        }
+        table { width: 100%; border-collapse: collapse; font-size: 11px; white-space: nowrap; min-width: 650px; }
         th { background: #0f172a; color: var(--accent); padding: 9px; border: 1px solid var(--card-border); text-align: center; font-size: 10px; }
         td { padding: 8px; border: 1px solid var(--card-border); text-align: center; }
 
-        .btn { background: var(--accent); color: #000; border: none; padding: 8px 14px; border-radius: 6px; font-weight: 800; cursor: pointer; font-size: 11px; }
-        .btn-sm { padding: 5px 10px; font-size: 0.75rem; }
+        .btn { background: var(--accent); color: #000; border: none; padding: 8px 12px; border-radius: 6px; font-weight: 800; cursor: pointer; font-size: 11px; }
+        .btn-sm { padding: 5px 8px; font-size: 0.7rem; }
         .btn-del { background: rgba(239, 68, 68, 0.2); color: var(--danger); border: 1px solid var(--danger); padding: 3px 8px; border-radius: 4px; cursor: pointer; font-weight: bold; }
-        .btn-edit { background: rgba(56, 189, 248, 0.2); color: var(--info); border: 1px solid var(--info); padding: 3px 8px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .btn-edit { background: rgba(56, 189, 248, 0.2); color: var(--info); border: 1px solid var(--info); padding: 3px 8px; border-radius: 4px; cursor: pointer; font-weight: bold; margin-right: 4px; }
         .btn-sec { background: rgba(255, 255, 255, 0.08); color: var(--text-main); border: 1px solid var(--card-border); }
         .btn-danger-sec { background: rgba(239, 68, 68, 0.2); color: var(--danger); border: 1px solid var(--danger); }
 
@@ -236,38 +265,38 @@
         <div class="metric-card">
             <div class="metric-icon" style="background: rgba(56, 189, 248, 0.15); color: var(--info);"><i class="fa-solid fa-folder-open"></i></div>
             <div class="metric-info">
-                <h3>Total Active Cases</h3>
+                <h3>Active Cases</h3>
                 <div class="val" id="metricActiveCases">0</div>
             </div>
         </div>
         <div class="metric-card">
             <div class="metric-icon" style="background: rgba(245, 158, 11, 0.15); color: var(--accent);"><i class="fa-solid fa-calendar-day"></i></div>
             <div class="metric-info">
-                <h3>Today's Hearings</h3>
+                <h3>Today's Cases</h3>
                 <div class="val" id="metricTodayCases">0</div>
             </div>
         </div>
         <div class="metric-card">
             <div class="metric-icon" style="background: rgba(139, 92, 246, 0.15); color: var(--purple);"><i class="fa-solid fa-users"></i></div>
             <div class="metric-info">
-                <h3>Total Clients</h3>
+                <h3>Clients</h3>
                 <div class="val" id="metricTotalClients">0</div>
             </div>
         </div>
         <div class="metric-card">
             <div class="metric-icon" style="background: rgba(239, 68, 68, 0.15); color: var(--danger);"><i class="fa-solid fa-hand-holding-dollar"></i></div>
             <div class="metric-info">
-                <h3>Total Pending Fees</h3>
-                <div class="val" id="metricPendingFees">LKR 0.00</div>
+                <h3>Pending Fees</h3>
+                <div class="val" id="metricPendingFees">LKR 0</div>
             </div>
         </div>
     </div>
 
     <!-- TABS NAVIGATION -->
     <div class="tab-nav no-print">
-      <button class="tab-btn active" onclick="switchTab('cases', event)"><i class="fa-solid fa-briefcase"></i> Case Files</button>
-      <button class="tab-btn" onclick="switchTab('diary', event)"><i class="fa-solid fa-calendar-days"></i> Legal Diary & Hearings</button>
-      <button class="tab-btn" onclick="switchTab('clients', event)"><i class="fa-solid fa-users"></i> Client & Payments</button>
+      <button class="tab-btn active" onclick="switchTab('cases', event)"><i class="fa-solid fa-briefcase"></i> Cases</button>
+      <button class="tab-btn" onclick="switchTab('diary', event)"><i class="fa-solid fa-calendar-days"></i> Diary</button>
+      <button class="tab-btn" onclick="switchTab('clients', event)"><i class="fa-solid fa-users"></i> Clients</button>
     </div>
 
     <!-- TAB 1: CASE MANAGEMENT -->
@@ -276,7 +305,7 @@
         <div class="card">
           <div class="card-title">
             <span>Case Directory / Master Register</span>
-            <button class="btn btn-sm btn-print no-print" onclick="window.print()"><i class="fa-solid fa-print"></i> Print Register</button>
+            <button class="btn btn-sm btn-print no-print" onclick="window.print()"><i class="fa-solid fa-print"></i> Print</button>
           </div>
           <div class="table-wrapper">
             <table>
@@ -285,9 +314,9 @@
                   <th>Case No</th>
                   <th>Court</th>
                   <th>Type</th>
-                  <th>Client / Parties</th>
+                  <th>Parties</th>
                   <th>Next Date</th>
-                  <th>Next Action / Step</th>
+                  <th>Next Step</th>
                   <th>Status</th>
                   <th class="no-print">Actions</th>
                 </tr>
@@ -355,7 +384,7 @@
     <div id="tab-diary" class="tab-content">
       <div class="card">
         <div class="card-title">
-          <span>Today's Court Appearances & Hearing Schedule</span>
+          <span>Today's Court Appearances & Schedule</span>
           <span id="diaryTodayDate" style="color:var(--info);"></span>
         </div>
         <div class="table-wrapper">
@@ -371,6 +400,24 @@
               </tr>
             </thead>
             <tbody id="todayHearingTable"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Upcoming Court Hearing Calendar</div>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Hearing Date</th>
+                <th>Case No</th>
+                <th>Court</th>
+                <th>Type</th>
+                <th>Next Step / Action</th>
+              </tr>
+            </thead>
+            <tbody id="upcomingHearingTable"></tbody>
           </table>
         </div>
       </div>
@@ -430,7 +477,7 @@
 
   </div>
 
-  <!-- 1. ANTI-COPY & ANTI-INSPECT PROTECTION -->
+  <!-- ANTI-COPY & ANTI-INSPECT PROTECTION -->
   <script>
     document.addEventListener('contextmenu', e => e.preventDefault());
     document.onkeydown = function(e) {
@@ -443,7 +490,7 @@
     };
   </script>
 
-  <!-- 2. LIVE GOOGLE DRIVE DATABASE DEVICE-LOCK SCRIPT -->
+  <!-- LIVE GOOGLE DRIVE DATABASE DEVICE-LOCK SCRIPT -->
   <script>
     let isLicenseVerified = false;
 
@@ -465,13 +512,12 @@
             .then(data => {
                 if (data.status === "SUCCESS") {
                     isLicenseVerified = true;
-                    console.log("License Verified via Google Drive Server!");
                 } else {
                     showBlocked("⛔ Access Denied!", data.message);
                 }
             })
             .catch(err => {
-                showBlocked("⛔ Verification Error", "Unable to connect to Google Drive verification server. Please check internet connection.");
+                showBlocked("⛔ Verification Error", "Unable to connect to Google Drive verification server.");
             });
 
         function showBlocked(title, msg) {
@@ -486,7 +532,7 @@
     })();
   </script>
 
-  <!-- 3. MAIN SYSTEM SCRIPT -->
+  <!-- MAIN SYSTEM SCRIPT WITH FULL RENDER LOGIC -->
   <script>
     function getSavedPin() {
       return localStorage.getItem('legal_os_pin') || '1234';
@@ -515,7 +561,7 @@
         const newPin = prompt('Enter NEW Passcode (4 to 6 Digits):');
         if(newPin && newPin.length >= 4) {
           localStorage.setItem('legal_os_pin', newPin);
-          alert('Passcode එක සාර්ථකව වෙනස් කරන ලදී! (NEW PIN Saved)');
+          alert('Passcode එක සාර්ථකව වෙනස් කරන ලදී!');
         } else if(newPin) {
           alert('Passcode එක අවම වශයෙන් ඉලක්කම් 4ක් විය යුතුය.');
         }
@@ -532,8 +578,14 @@
     }
 
     const defaultData = {
-      cases: [{ id: 1, no: "D/123/2026", court: "Kegalle District Court", type: "Land / Partition", plaintiff: "K.M. Jayawardena", defendant: "S.B. Herath", nextDate: "2026-08-15", nextStep: "Filing Plaint", lawyer: "Attorney-at-Law", status: "Active" }],
-      clients: [{ id: 1, name: "K.M. Jayawardena", nic: "781234567V", phone: "0771234567", agreed: 150000, paid: 50000 }]
+      cases: [
+        { id: 1, no: "D/123/2026", court: "Kegalle District Court", type: "Land / Partition", plaintiff: "K.M. Jayawardena", defendant: "S.B. Herath", nextDate: "2026-08-15", nextStep: "Filing Plaint", lawyer: "Attorney-at-Law", status: "Active" },
+        { id: 2, no: "M/456/2026", court: "Warakapola Court", type: "Criminal / Magistrate", plaintiff: "Police", defendant: "R.P. Bandara", nextDate: new Date().toISOString().split('T')[0], nextStep: "Trial Evidence", lawyer: "Attorney-at-Law", status: "Active" }
+      ],
+      clients: [
+        { id: 1, name: "K.M. Jayawardena", nic: "781234567V", phone: "0771234567", agreed: 150000, paid: 50000 },
+        { id: 2, name: "R.P. Bandara", nic: "882345678V", phone: "0719876543", agreed: 80000, paid: 80000 }
+      ]
     };
 
     let appState = JSON.parse(localStorage.getItem('legal_os_state')) || defaultData;
@@ -547,7 +599,7 @@
       if(confirm("ඔබට පද්ධතියේ ඇති සියලුම නඩු හා දත්ත ඉවත් කිරීමට අවශ්‍යද?")) {
         appState = { cases: [], clients: [] };
         saveState();
-        alert("සියලුම දත්ත සාර්ථකව ඉවත් කරන ලදී (Data Erased).");
+        alert("සියලුම දත්ත සාර්ථකව ඉවත් කරන ලදී.");
       }
     }
 
@@ -586,6 +638,24 @@
       saveState();
     }
 
+    function editCase(id) {
+      const c = appState.cases.find(item => item.id === id);
+      if(c) {
+        document.getElementById('cEditId').value = c.id;
+        document.getElementById('cNo').value = c.no;
+        document.getElementById('cCourt').value = c.court;
+        document.getElementById('cType').value = c.type;
+        document.getElementById('cPlaintiff').value = c.plaintiff;
+        document.getElementById('cDefendant').value = c.defendant;
+        document.getElementById('cNextDate').value = c.nextDate;
+        document.getElementById('cNextStep').value = c.nextStep;
+        document.getElementById('cLawyer').value = c.lawyer;
+        document.getElementById('cStatus').value = c.status;
+
+        document.getElementById('caseFormTitle').innerText = 'Edit Case Details';
+      }
+    }
+
     function saveClientRecord() {
       const name = document.getElementById('clName').value;
       const nic = document.getElementById('clNic').value;
@@ -617,27 +687,86 @@
       }
     }
 
+    // COMPLETE RENDER ALL LOGIC FOR METRICS AND TABLES
     function renderAll() {
-      const cBody = document.getElementById('caseTableBody');
-      if(!cBody) return;
-      
-      // Render Cases
-      cBody.innerHTML = '';
-      appState.cases.forEach(c => {
-        cBody.innerHTML += `
-          <tr>
-            <td><strong>${c.no}</strong></td>
-            <td>${c.court}</td>
-            <td>${c.type}</td>
-            <td>${c.plaintiff} vs ${c.defendant}</td>
-            <td style="color:var(--accent);">${c.nextDate}</td>
-            <td>${c.nextStep}</td>
-            <td><span class="status-pill status-active">${c.status}</span></td>
-            <td><button class="btn-del" onclick="deleteCase(${c.id})">×</button></td>
-          </tr>`;
-      });
+      const todayStr = new Date().toISOString().split('T')[0];
+      const diaryTodayDate = document.getElementById('diaryTodayDate');
+      if(diaryTodayDate) diaryTodayDate.innerText = `Date: ${todayStr}`;
 
-      // Render Clients
+      // 1. Calculate & Update Metrics
+      let activeCount = appState.cases.filter(c => c.status === 'Active').length;
+      let todayCount = appState.cases.filter(c => c.nextDate === todayStr).length;
+      let totalClients = appState.clients.length;
+      let pendingFees = appState.clients.reduce((acc, c) => acc + (c.agreed - c.paid), 0);
+
+      document.getElementById('metricActiveCases').innerText = activeCount;
+      document.getElementById('metricTodayCases').innerText = todayCount;
+      document.getElementById('metricTotalClients').innerText = totalClients;
+      document.getElementById('metricPendingFees').innerText = "LKR " + (pendingFees > 0 ? pendingFees : 0).toLocaleString();
+
+      // 2. Render Case Table
+      const cBody = document.getElementById('caseTableBody');
+      if(cBody) {
+        cBody.innerHTML = '';
+        appState.cases.forEach(c => {
+          let pClass = c.status === 'Active' ? 'status-active' : 'status-closed';
+          cBody.innerHTML += `
+            <tr>
+              <td><strong>${c.no}</strong></td>
+              <td>${c.court}</td>
+              <td>${c.type}</td>
+              <td>${c.plaintiff} vs ${c.defendant}</td>
+              <td style="color:var(--accent); font-weight:800;">${c.nextDate}</td>
+              <td>${c.nextStep}</td>
+              <td><span class="status-pill ${pClass}">${c.status}</span></td>
+              <td class="no-print">
+                <button class="btn-edit" onclick="editCase(${c.id})">Edit</button>
+                <button class="btn-del" onclick="deleteCase(${c.id})">×</button>
+              </td>
+            </tr>`;
+        });
+      }
+
+      // 3. Render Today's Hearing Table
+      const tBody = document.getElementById('todayHearingTable');
+      if(tBody) {
+        tBody.innerHTML = '';
+        let todayCases = appState.cases.filter(c => c.nextDate === todayStr);
+        if(todayCases.length === 0) {
+          tBody.innerHTML = `<tr><td colspan="6" style="color:var(--text-muted);">අද දිනට නඩු කැඳවීම් නොමැත (No Court Cases Scheduled for Today).</td></tr>`;
+        } else {
+          todayCases.forEach(c => {
+            tBody.innerHTML += `
+              <tr>
+                <td><strong>${c.no}</strong></td>
+                <td>${c.court}</td>
+                <td>${c.plaintiff} vs ${c.defendant}</td>
+                <td style="color:var(--info); font-weight:700;">${c.nextStep}</td>
+                <td>${c.lawyer}</td>
+                <td><span class="status-pill status-active">Scheduled Today</span></td>
+              </tr>`;
+          });
+        }
+      }
+
+      // 4. Render Upcoming Hearings
+      const uBody = document.getElementById('upcomingHearingTable');
+      if(uBody) {
+        uBody.innerHTML = '';
+        let upcoming = [...appState.cases].sort((a,b) => a.nextDate.localeCompare(b.nextDate));
+        upcoming.forEach(c => {
+          uBody.innerHTML += `
+            <tr>
+              <td style="color:var(--accent); font-weight:800;">${c.nextDate}</td>
+              <td><strong>${c.no}</strong></td>
+              <td>${c.court}</td>
+              <td>${c.type}</td>
+              <td>${c.nextStep}</td>
+            </tr>`;
+        });
+      }
+
+      // 5. Render Client Table
       const clBody = document.getElementById('clientTableBody');
       if(clBody) {
         clBody.innerHTML = '';
@@ -651,7 +780,7 @@
               <td>Rs. ${c.agreed.toLocaleString()}</td>
               <td style="color:var(--success);">Rs. ${c.paid.toLocaleString()}</td>
               <td style="color:${balance > 0 ? 'var(--danger)' : 'var(--success)'}; font-weight:700;">Rs. ${(balance > 0 ? balance : 0).toLocaleString()}</td>
-              <td><button class="btn-del" onclick="deleteClient(${c.id})">×</button></td>
+              <td class="no-print"><button class="btn-del" onclick="deleteClient(${c.id})">×</button></td>
             </tr>`;
         });
       }
