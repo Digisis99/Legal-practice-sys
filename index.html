@@ -209,11 +209,11 @@
       <i class="fa-solid fa-scale-balanced lock-icon"></i>
       <h2>Legal OS Practice Manager</h2>
       <p>Enter Master PIN to access Case File System</p>
-      <form id="loginForm">
+      <form id="loginForm" onsubmit="return false;">
         <div class="form-group">
           <input type="password" id="inputPin" class="pin-input" maxlength="6" placeholder="••••" required autofocus>
         </div>
-        <button type="submit" class="btn" style="width:100%; margin-top:10px;">Unlock Legal OS</button>
+        <button type="button" class="btn" onclick="handleLogin()" style="width:100%; margin-top:10px;">Unlock Legal OS</button>
       </form>
       <p style="margin-top: 15px; font-size: 0.75rem; color: var(--text-muted);">Default PIN: 1234</p>
     </div>
@@ -299,7 +299,7 @@
 
         <div class="card no-print">
           <div class="card-title" id="caseFormTitle">+ Add New Case File</div>
-          <form id="caseForm">
+          <form id="caseForm" onsubmit="return false;">
             <input type="hidden" id="cEditId">
             <div class="form-group">
               <label>Case Number / Reference</label>
@@ -345,7 +345,7 @@
                 <option value="Closed / Disposed">Closed / Disposed</option>
               </select>
             </div>
-            <button type="submit" class="btn" id="cBtnSubmit" style="width: 100%; margin-top: 5px;">Save Case Record</button>
+            <button type="button" class="btn" id="cBtnSubmit" onclick="saveCaseRecord()" style="width: 100%; margin-top: 5px;">Save Case Record</button>
           </form>
         </div>
       </div>
@@ -401,7 +401,7 @@
 
         <div class="card no-print">
           <div class="card-title">+ Add Client Payment Record</div>
-          <form id="clientForm">
+          <form id="clientForm" onsubmit="return false;">
             <div class="form-group">
               <label>Client Full Name</label>
               <input type="text" id="clName" required>
@@ -422,7 +422,7 @@
               <label>Advance Payment (LKR)</label>
               <input type="number" id="clPaid" value="0">
             </div>
-            <button type="submit" class="btn" style="width:100%; margin-top:5px;">Save Client Ledger</button>
+            <button type="button" class="btn" onclick="saveClientRecord()" style="width:100%; margin-top:5px;">Save Client Ledger</button>
           </form>
         </div>
       </div>
@@ -445,8 +445,9 @@
 
   <!-- 2. LIVE GOOGLE DRIVE DATABASE DEVICE-LOCK SCRIPT -->
   <script>
+    let isLicenseVerified = false;
+
     (function() {
-        // Your Google Apps Script Web App Endpoint
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzvEOijNAgkKmucXoNPWT6D0uESaVGl1zM70Wm03ql_ySepn1s9jwoud3_Go77HBQCW/exec";
 
         const urlParams = new URLSearchParams(window.location.search);
@@ -457,21 +458,20 @@
             return;
         }
 
-        // Generate Hardware Fingerprint
         const deviceFP = window.btoa(navigator.userAgent + screen.width + "x" + screen.height);
 
-        // Verify Key & Device against Google Drive Sheet
         fetch(`${GOOGLE_SCRIPT_URL}?key=${encodeURIComponent(clientKey)}&device=${encodeURIComponent(deviceFP)}`)
             .then(res => res.json())
             .then(data => {
                 if (data.status === "SUCCESS") {
+                    isLicenseVerified = true;
                     console.log("License Verified via Google Drive Server!");
                 } else {
                     showBlocked("⛔ Access Denied!", data.message);
                 }
             })
             .catch(err => {
-                showBlocked("⛔ Verification Error", "Unable to connect to Google Drive verification server. Please check your internet connection.");
+                showBlocked("⛔ Verification Error", "Unable to connect to Google Drive verification server. Please check internet connection.");
             });
 
         function showBlocked(title, msg) {
@@ -488,22 +488,40 @@
 
   <!-- 3. MAIN SYSTEM SCRIPT -->
   <script>
-    let savedPin = localStorage.getItem('legal_os_pin') || '1234';
+    function getSavedPin() {
+      return localStorage.getItem('legal_os_pin') || '1234';
+    }
 
-    document.getElementById('loginForm').addEventListener('submit', (e) => {
-      e.preventDefault();
-      if(document.getElementById('inputPin').value === savedPin) {
+    function handleLogin() {
+      const entered = document.getElementById('inputPin').value;
+      if(entered === getSavedPin()) {
         document.getElementById('authOverlay').style.display = 'none';
         document.getElementById('mainSystem').style.display = 'block';
         renderAll();
       } else {
         alert('වැරදි Passcode එකකි!');
+        document.getElementById('inputPin').value = '';
       }
-    });
+    }
 
     function lockSystem() {
       document.getElementById('mainSystem').style.display = 'none';
       document.getElementById('authOverlay').style.display = 'flex';
+    }
+
+    function changePinModal() {
+      const current = prompt('Enter Current Passcode:');
+      if(current === getSavedPin()) {
+        const newPin = prompt('Enter NEW Passcode (4 to 6 Digits):');
+        if(newPin && newPin.length >= 4) {
+          localStorage.setItem('legal_os_pin', newPin);
+          alert('Passcode එක සාර්ථකව වෙනස් කරන ලදී! (NEW PIN Saved)');
+        } else if(newPin) {
+          alert('Passcode එක අවම වශයෙන් ඉලක්කම් 4ක් විය යුතුය.');
+        }
+      } else if(current !== null) {
+        alert('පැරණි Passcode එක වැරදියි!');
+      }
     }
 
     function switchTab(tabId, e) {
@@ -525,14 +543,118 @@
       renderAll();
     }
 
+    function clearAllData() {
+      if(confirm("ඔබට පද්ධතියේ ඇති සියලුම නඩු හා දත්ත ඉවත් කිරීමට අවශ්‍යද?")) {
+        appState = { cases: [], clients: [] };
+        saveState();
+        alert("සියලුම දත්ත සාර්ථකව ඉවත් කරන ලදී (Data Erased).");
+      }
+    }
+
+    function saveCaseRecord() {
+      const no = document.getElementById('cNo').value;
+      const court = document.getElementById('cCourt').value;
+      const type = document.getElementById('cType').value;
+      const plaintiff = document.getElementById('cPlaintiff').value;
+      const defendant = document.getElementById('cDefendant').value;
+      const nextDate = document.getElementById('cNextDate').value;
+      const nextStep = document.getElementById('cNextStep').value;
+      const lawyer = document.getElementById('cLawyer').value;
+      const status = document.getElementById('cStatus').value;
+
+      if(!no || !court || !plaintiff || !nextDate) {
+        alert("කරුණාකර අවශ්‍ය සියලුම තොරතුරු ඇතුළත් කරන්න.");
+        return;
+      }
+
+      const editId = document.getElementById('cEditId').value;
+      if(editId) {
+        const item = appState.cases.find(c => c.id == editId);
+        if(item) {
+          item.no = no; item.court = court; item.type = type;
+          item.plaintiff = plaintiff; item.defendant = defendant;
+          item.nextDate = nextDate; item.nextStep = nextStep;
+          item.lawyer = lawyer; item.status = status;
+        }
+        document.getElementById('cEditId').value = '';
+        document.getElementById('caseFormTitle').innerText = '+ Add New Case File';
+      } else {
+        appState.cases.push({ id: Date.now(), no, court, type, plaintiff, defendant, nextDate, nextStep, lawyer, status });
+      }
+
+      document.getElementById('caseForm').reset();
+      saveState();
+    }
+
+    function saveClientRecord() {
+      const name = document.getElementById('clName').value;
+      const nic = document.getElementById('clNic').value;
+      const phone = document.getElementById('clPhone').value;
+      const agreed = parseFloat(document.getElementById('clAgreed').value) || 0;
+      const paid = parseFloat(document.getElementById('clPaid').value) || 0;
+
+      if(!name || !nic || !phone) {
+        alert("කරුණාකර Client ගේ විස්තර නිවැරදිව ඇතුළත් කරන්න.");
+        return;
+      }
+
+      appState.clients.push({ id: Date.now(), name, nic, phone, agreed, paid });
+      document.getElementById('clientForm').reset();
+      saveState();
+    }
+
+    function deleteCase(id) {
+      if(confirm("මෙම Case Record එක ඉවත් කිරීමට අවශ්‍යද?")) {
+        appState.cases = appState.cases.filter(c => c.id !== id);
+        saveState();
+      }
+    }
+
+    function deleteClient(id) {
+      if(confirm("මෙම Client Record එක ඉවත් කිරීමට අවශ්‍යද?")) {
+        appState.clients = appState.clients.filter(c => c.id !== id);
+        saveState();
+      }
+    }
+
     function renderAll() {
-      const todayStr = new Date().toISOString().split('T')[0];
       const cBody = document.getElementById('caseTableBody');
       if(!cBody) return;
+      
+      // Render Cases
       cBody.innerHTML = '';
       appState.cases.forEach(c => {
-        cBody.innerHTML += `<tr><td><strong>${c.no}</strong></td><td>${c.court}</td><td>${c.type}</td><td>${c.plaintiff} vs ${c.defendant}</td><td style="color:var(--accent);">${c.nextDate}</td><td>${c.nextStep}</td><td><span class="status-pill status-active">${c.status}</span></td></tr>`;
+        cBody.innerHTML += `
+          <tr>
+            <td><strong>${c.no}</strong></td>
+            <td>${c.court}</td>
+            <td>${c.type}</td>
+            <td>${c.plaintiff} vs ${c.defendant}</td>
+            <td style="color:var(--accent);">${c.nextDate}</td>
+            <td>${c.nextStep}</td>
+            <td><span class="status-pill status-active">${c.status}</span></td>
+            <td><button class="btn-del" onclick="deleteCase(${c.id})">×</button></td>
+          </tr>`;
       });
+
+      // Render Clients
+      const clBody = document.getElementById('clientTableBody');
+      if(clBody) {
+        clBody.innerHTML = '';
+        appState.clients.forEach(c => {
+          let balance = c.agreed - c.paid;
+          clBody.innerHTML += `
+            <tr>
+              <td><strong>${c.name}</strong></td>
+              <td>${c.nic}</td>
+              <td>${c.phone}</td>
+              <td>Rs. ${c.agreed.toLocaleString()}</td>
+              <td style="color:var(--success);">Rs. ${c.paid.toLocaleString()}</td>
+              <td style="color:${balance > 0 ? 'var(--danger)' : 'var(--success)'}; font-weight:700;">Rs. ${(balance > 0 ? balance : 0).toLocaleString()}</td>
+              <td><button class="btn-del" onclick="deleteClient(${c.id})">×</button></td>
+            </tr>`;
+        });
+      }
     }
   </script>
 </body>
