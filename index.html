@@ -413,6 +413,49 @@
   </div>
 
 <script>
+// 1. Mouse Right Click කිරීම Block කිරීම
+  document.addEventListener('contextmenu', function(e) {
+      e.preventDefault();
+  });
+
+  // 2. Keyboard Shortcuts Block කිරීම
+  document.onkeydown = function(e) {
+      // F12 Key එක Block කිරීම (Developer Tools)
+      if (e.keyCode === 123) {
+          e.preventDefault();
+          return false;
+      }
+      
+      // Ctrl + U (View Source Code) Block කිරීම
+      if (e.ctrlKey && e.keyCode === 'U'.charCodeAt(0)) {
+          e.preventDefault();
+          return false;
+      }
+
+      // Ctrl + Shift + I (Inspect Element) Block කිරීම
+      if (e.ctrlKey && e.shiftKey && e.keyCode === 'I'.charCodeAt(0)) {
+          e.preventDefault();
+          return false;
+      }
+
+      // Ctrl + Shift + C (Inspect Element Mode) Block කිරීම
+      if (e.ctrlKey && e.shiftKey && e.keyCode === 'C'.charCodeAt(0)) {
+          e.preventDefault();
+          return false;
+      }
+
+      // Ctrl + Shift + J (Console Mode) Block කිරීම
+      if (e.ctrlKey && e.shiftKey && e.keyCode === 'J'.charCodeAt(0)) {
+          e.preventDefault();
+          return false;
+      }
+
+      // Ctrl + S (Page Save As) Block කිරීම
+      if (e.ctrlKey && e.keyCode === 'S'.charCodeAt(0)) {
+          e.preventDefault();
+          return false;
+      }
+  };
 // Single-Device Lock Script
 (function() {
     const urlParams = new URLSearchParams(window.location.search);
