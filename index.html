@@ -443,38 +443,41 @@
     };
   </script>
 
-  <!-- 2. SECURE HARDCODED DEVICE BINDING LOGIC -->
+  <!-- 2. LIVE GOOGLE DRIVE DATABASE DEVICE-LOCK SCRIPT -->
   <script>
     (function() {
+        // Your Google Apps Script Web App Endpoint
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzvEOijNAgkKmucXoNPWT6D0uESaVGl1zM70Wm03ql_ySepn1s9jwoud3_Go77HBQCW/exec";
+
         const urlParams = new URLSearchParams(window.location.search);
         const clientKey = urlParams.get('key');
 
-        // 🛑 VALID KEYS LIST (ඔබ සෙල් කරන Clients ලාගේ Keys මෙතැනට එකතු කරන්න)
-        const ALLOWED_KEYS = ["admin", "shashi", "indrarathna", "perera_legal_002"];
-
-        if (!clientKey || !ALLOWED_KEYS.includes(clientKey)) {
-            showBlocked("⛔ Unauthorized Access!", "Valid License Key Required to Open System.");
+        if (!clientKey) {
+            showBlocked("⛔ Access Denied!", "Valid License Key Required in URL (e.g. ?key=shashi_123)");
             return;
         }
 
-        // Generate Hardware Signature
-        const hwSignature = window.btoa(navigator.userAgent + screen.width + "x" + screen.height);
-        const lockKeyName = "master_locked_device_" + clientKey;
-        const storedLock = localStorage.getItem(lockKeyName);
+        // Generate Hardware Fingerprint
+        const deviceFP = window.btoa(navigator.userAgent + screen.width + "x" + screen.height);
 
-        // First time opening on a device -> Lock to this specific HW Signature
-        if (!storedLock) {
-            localStorage.setItem(lockKeyName, hwSignature);
-        } else if (storedLock !== hwSignature) {
-            // Opened on another phone/laptop -> Block Access!
-            showBlocked("⛔ Access Denied! (Link Resend Blocked)", "මෙම Link එක වෙනත් Device එකකට Lock කර ඇත. වෙනත් අය අතර Share කර භාවිත කළ නොහැක.");
-            return;
-        }
+        // Verify Key & Device against Google Drive Sheet
+        fetch(`${GOOGLE_SCRIPT_URL}?key=${encodeURIComponent(clientKey)}&device=${encodeURIComponent(deviceFP)}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === "SUCCESS") {
+                    console.log("License Verified via Google Drive Server!");
+                } else {
+                    showBlocked("⛔ Access Denied!", data.message);
+                }
+            })
+            .catch(err => {
+                showBlocked("⛔ Verification Error", "Unable to connect to Google Drive verification server. Please check your internet connection.");
+            });
 
         function showBlocked(title, msg) {
             document.body.innerHTML = `
                 <div style="display:flex; justify-content:center; align-items:center; height:100vh; background:#0b1120; color:#ef4444; font-family:sans-serif; text-align:center; padding:20px;">
-                    <div style="background:#1e293b; padding:30px; border-radius:16px; border:1px solid #ef4444; max-width:400px;">
+                    <div style="background:#1e293b; padding:30px; border-radius:16px; border:1px solid #ef4444; max-width:420px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.5);">
                         <h1 style="font-size:1.5rem; margin-bottom:12px; color:#ef4444;">${title}</h1>
                         <p style="color:#94a3b8; font-size:0.9rem; line-height:1.5;">${msg}</p>
                     </div>
