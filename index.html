@@ -230,6 +230,10 @@
         .status-active { background: rgba(16, 185, 129, 0.2); color: var(--success); }
         .status-pending { background: rgba(245, 158, 11, 0.2); color: var(--accent); }
         .status-closed { background: rgba(239, 68, 68, 0.2); color: var(--danger); }
+
+        #syncBadge { font-size: 0.7rem; padding: 4px 8px; border-radius: 6px; font-weight: bold; display: inline-flex; align-items: center; gap: 4px; }
+        .sync-success { background: rgba(16, 185, 129, 0.2); color: var(--success); }
+        .sync-loading { background: rgba(245, 158, 11, 0.2); color: var(--accent); }
     </style>
 </head>
 <body>
@@ -254,7 +258,10 @@
   <div class="container" id="mainSystem">
     
     <header class="no-print">
-      <h1><i class="fa-solid fa-gavel"></i> LEGAL PRACTICE OS PRO</h1>
+      <h1>
+        <i class="fa-solid fa-gavel"></i> LEGAL PRACTICE OS PRO
+        <span id="syncBadge" class="sync-success"><i class="fa-solid fa-cloud-check"></i> Cloud Synced</span>
+      </h1>
       <div class="header-btns">
         <button class="btn btn-sec btn-sm" onclick="changePinModal()"><i class="fa-solid fa-key"></i> PIN</button>
         <button class="btn btn-danger-sec btn-sm" onclick="clearAllData()"><i class="fa-solid fa-trash"></i> Reset Data</button>
@@ -492,28 +499,39 @@
     };
   </script>
 
-  <!-- LIVE GOOGLE DRIVE DATABASE DEVICE-LOCK SCRIPT -->
+  <!-- LIVE GOOGLE DRIVE DATABASE DEVICE-LOCK & AUTO-SYNC SCRIPT -->
   <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const clientKey = urlParams.get('key');
+    const customEndpoint = urlParams.get('endpoint'); // Optional dynamic endpoint support
+
+    const DEFAULT_ENDPOINT = "https://script.google.com/macros/s/AKfycbzvEOijNAgkKmucXoNPWT6D0uESaVGl1zM70Wm03ql_ySepn1s9jwoud3_Go77HBQCW/exec";
+    const GOOGLE_SCRIPT_URL = customEndpoint || DEFAULT_ENDPOINT;
+
     let isLicenseVerified = false;
 
     (function() {
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzvEOijNAgkKmucXoNPWT6D0uESaVGl1zM70Wm03ql_ySepn1s9jwoud3_Go77HBQCW/exec";
-
-        const urlParams = new URLSearchParams(window.location.search);
-        const clientKey = urlParams.get('key');
-
         if (!clientKey) {
-            showBlocked("⛔ Access Denied!", "Valid License Key Required in URL");
+            showBlocked("⛔ Access Denied!", "Valid License Key Required in URL (e.g. ?key=kasun_legal_2026)");
             return;
         }
 
-        const deviceFP = window.btoa(navigator.userAgent + screen.width + "x" + screen.height);
+        // Generate unique 2-Device Fingerprint
+        const deviceFP = window.btoa(navigator.userAgent.replace(/\s+/g, '') + screen.width + "x" + screen.height);
 
         fetch(`${GOOGLE_SCRIPT_URL}?key=${encodeURIComponent(clientKey)}&device=${encodeURIComponent(deviceFP)}`)
             .then(res => res.json())
             .then(data => {
                 if (data.status === "SUCCESS") {
                     isLicenseVerified = true;
+                    // Auto-restore data from cloud if available (Useful after Device Reset/Format)
+                    if (data.cloudData && data.cloudData.trim().length > 0) {
+                      try {
+                        const parsedCloud = JSON.parse(data.cloudData);
+                        localStorage.setItem('legal_os_state', JSON.stringify(parsedCloud));
+                        appState = parsedCloud;
+                      } catch(err) { console.error("Cloud data parse error", err); }
+                    }
                 } else {
                     showBlocked("⛔ Access Denied!", data.message);
                 }
@@ -532,9 +550,35 @@
                 </div>`;
         }
     })();
+
+    // BACKGROUND AUTO BACKUP TO GOOGLE SHEET
+    function syncDataToCloud() {
+      if (!clientKey) return;
+      const syncBadge = document.getElementById('syncBadge');
+      if (syncBadge) {
+        syncBadge.className = "sync-loading";
+        syncBadge.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Syncing...`;
+      }
+
+      const payload = encodeURIComponent(JSON.stringify(appState));
+      fetch(`${GOOGLE_SCRIPT_URL}?key=${encodeURIComponent(clientKey)}&action=save_data&payload=${payload}`)
+        .then(res => res.json())
+        .then(data => {
+          if (syncBadge) {
+            syncBadge.className = "sync-success";
+            syncBadge.innerHTML = `<i class="fa-solid fa-cloud-check"></i> Cloud Synced`;
+          }
+        })
+        .catch(err => {
+          if (syncBadge) {
+            syncBadge.className = "sync-loading";
+            syncBadge.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Sync Failed`;
+          }
+        });
+    }
   </script>
 
-  <!-- MAIN SYSTEM SCRIPT WITH FULL RENDER & PAYMENT UPDATE LOGIC -->
+  <!-- MAIN SYSTEM SCRIPT -->
   <script>
     function getSavedPin() {
       return localStorage.getItem('legal_os_pin') || '1234';
@@ -595,6 +639,7 @@
     function saveState() {
       localStorage.setItem('legal_os_state', JSON.stringify(appState));
       renderAll();
+      syncDataToCloud(); // Trigger Background Auto Backup to Sheet
     }
 
     function clearAllData() {
@@ -675,7 +720,6 @@
       saveState();
     }
 
-    // UPDATE CLIENT PAYMENT FUNCTION (+ PAY BUTTON)
     function addPayment(clientId) {
       const client = appState.clients.find(c => c.id === clientId);
       if(client) {
@@ -710,7 +754,7 @@
       const diaryTodayDate = document.getElementById('diaryTodayDate');
       if(diaryTodayDate) diaryTodayDate.innerText = `Date: ${todayStr}`;
 
-      // 1. Calculate & Update Metrics
+      // 1. Metrics
       let activeCount = appState.cases.filter(c => c.status === 'Active').length;
       let todayCount = appState.cases.filter(c => c.nextDate === todayStr).length;
       let totalClients = appState.clients.length;
@@ -783,7 +827,7 @@
         });
       }
 
-      // 5. Render Client Table with Payment Update Button
+      // 5. Render Client Table
       const clBody = document.getElementById('clientTableBody');
       if(clBody) {
         clBody.innerHTML = '';
